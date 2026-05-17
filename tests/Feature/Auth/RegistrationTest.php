@@ -21,6 +21,9 @@ class RegistrationTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'company_name' => 'SupplyLink Logistics Ltd.',
+            'role' => 'client',
+            'terms' => '1',
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);
