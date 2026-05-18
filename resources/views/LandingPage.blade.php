@@ -116,7 +116,7 @@
         </script>
 </head>
 
-<body class="bg-background text-on-background font-body-md selection:bg-secondary-container">
+<body id="top" class="bg-background text-on-background font-body-md selection:bg-secondary-container">
         <!-- TopNavBar -->
         <nav
                 class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/20 shadow-sm">
@@ -129,26 +129,26 @@
                         </div>
                         <div class="hidden md:flex gap-8 items-center">
                                 <a class="font-body-md text-body-md transition-all hover:opacity-80 font-bold border-b-2 border-primary text-primary"
-                                        href="#">Solution</a>
+                                        href="#solution">Solution</a>
                                 <a class="font-body-md text-body-md transition-all hover:opacity-80 text-on-surface-variant hover:text-primary"
-                                        href="#">Features</a>
+                                        href="#features">Features</a>
                                 <a class="font-body-md text-body-md transition-all hover:opacity-80 text-on-surface-variant hover:text-primary"
-                                        href="#">Pricing</a>
+                                        href="#pricing">Pricing</a>
                                 <a class="font-body-md text-body-md transition-all hover:opacity-80 text-on-surface-variant hover:text-primary"
-                                        href="#">About</a>
+                                        href="#about">About</a>
                         </div>
                         <div class="flex items-center gap-4">
-                                <button
-                                        class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all active:scale-95 duration-200">Login</button>
-                                <button
+                                <a href="{{ route('login') }}"
+                                        class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all active:scale-95 duration-200">Login</a>
+                                <a href="{{ route('register') }}"
                                         class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md font-bold transition-all hover:opacity-80 active:scale-95 duration-200">Get
-                                        Started</button>
+                                        Started</a>
                         </div>
                 </div>
         </nav>
         <main class="pt-20">
                 <!-- Hero Section -->
-                <section class="relative overflow-hidden py-24 md:py-32">
+                <section id="solution" class="relative overflow-hidden py-24 md:py-32">
                         <div
                                 class="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                                 <div class="z-10">
@@ -165,12 +165,12 @@
                                                 reliability.
                                         </p>
                                         <div class="flex flex-wrap gap-4">
-                                                <button
+                                                <a href="{{ route('register') }}"
                                                         class="bg-primary text-on-primary px-8 py-4 rounded-full font-label-md text-label-md font-bold transition-all hover:shadow-lg active:scale-95">Get
-                                                        Started</button>
-                                                <button
+                                                        Started</a>
+                                                <a href="#features"
                                                         class="bg-surface-container-high text-primary px-8 py-4 rounded-full font-label-md text-label-md font-bold transition-all hover:bg-surface-container-highest active:scale-95">Learn
-                                                        More</button>
+                                                        More</a>
                                         </div>
                                 </div>
                                 <div class="relative">
@@ -186,7 +186,7 @@
                         </div>
                 </section>
                 <!-- Features Bento Grid -->
-                <section class="py-24 bg-surface-container-low">
+                <section id="features" class="py-24 bg-surface-container-low">
                         <div class="max-w-container-max mx-auto px-margin-desktop">
                                 <div class="text-center mb-16">
                                         <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Precision
@@ -261,7 +261,7 @@
                         </div>
                 </section>
                 <!-- Categories Section -->
-                <section class="py-24">
+                <section id="categories" class="py-24">
                         <div class="max-w-container-max mx-auto px-margin-desktop">
                                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
                                         <div class="max-w-xl">
@@ -271,16 +271,16 @@
                                                         infrastructure for the unique demands of global trade across
                                                         different sectors.</p>
                                         </div>
-                                        <button
+                                        <a href="#contact"
                                                 class="text-primary font-label-md text-label-md flex items-center gap-2 group">
                                                 View All Categories
                                                 <span
                                                         class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
-                                        </button>
+                                        </a>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                                         <!-- Logistics -->
-                                        <div class="group cursor-pointer">
+                                        <div class="group cursor-pointer" role="link" tabindex="0" onclick="location.href='#contact'" onkeydown="if(event.key === 'Enter') location.href='#contact'">
                                                 <div class="relative h-80 rounded-[24px] overflow-hidden mb-6">
                                                         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                                 data-alt="A clean, aerial view of a modern logistics warehouse with organized shipping containers and sleek freight trucks. The lighting is bright and natural, capturing a professional and efficient industrial atmosphere. The scene is dominated by a palette of cool blues and greys, reflecting the modern corporate minimalism of the brand."
@@ -298,7 +298,7 @@
                                                         integration for seamless global transport.</p>
                                         </div>
                                         <!-- Manufacturing -->
-                                        <div class="group cursor-pointer">
+                                        <div class="group cursor-pointer" role="link" tabindex="0" onclick="location.href='#contact'" onkeydown="if(event.key === 'Enter') location.href='#contact'">
                                                 <div class="relative h-80 rounded-[24px] overflow-hidden mb-6">
                                                         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                                 data-alt="Industrial manufacturing facility with advanced machinery and production lines. Modern factory environment with clean, organized workspace. Cool blue and metallic tones emphasizing technology and efficiency."
@@ -316,7 +316,7 @@
                                                         production workflows and quality assurance.</p>
                                         </div>
                                         <!-- E-commerce -->
-                                        <div class="group cursor-pointer">
+                                        <div class="group cursor-pointer" role="link" tabindex="0" onclick="location.href='#contact'" onkeydown="if(event.key === 'Enter') location.href='#contact'">
                                                 <div class="relative h-80 rounded-[24px] overflow-hidden mb-6">
                                                         <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                                 data-alt="Modern e-commerce warehouse with robotic fulfillment systems and package sorting. High-tech logistics center with conveyor belts and automated systems. Bright, efficient environment in blue and white tones."
@@ -337,16 +337,16 @@
                         </div>
                 </section>
                 <!-- CTA Section -->
-                <section class="py-32 bg-primary">
+                <section id="pricing" class="py-32 bg-primary">
                         <div class="max-w-container-max mx-auto px-margin-desktop text-center">
                                 <h2 class="font-headline-lg text-headline-lg text-on-primary mb-6">Ready to Transform
                                         Your Supply Chain?</h2>
                                 <p class="text-on-primary/80 max-w-2xl mx-auto mb-12 font-body-lg text-body-lg">Join
                                         thousands of enterprises and start optimizing your logistics operations today.
                                 </p>
-                                <button
+                                <a href="{{ route('register') }}"
                                         class="bg-on-primary text-primary px-8 py-4 rounded-full font-label-md text-label-md font-bold transition-all hover:shadow-lg active:scale-95">Get
-                                        Started Free</button>
+                                        Started Free</a>
                         </div>
                 </section>
                 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -361,7 +361,7 @@
                         finished goods.</p>
                 </div>
                 <!-- Tech -->
-                <div class="group cursor-pointer">
+                <div class="group cursor-pointer" role="link" tabindex="0" onclick="location.href='#contact'" onkeydown="if(event.key === 'Enter') location.href='#contact'">
                         <div class="relative h-80 rounded-[24px] overflow-hidden mb-6">
                                 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                         data-alt="A futuristic laboratory or high-end server room with glowing blue panels and minimalist hardware. The lighting is soft and ambient with sharp digital accents, conveying a sense of advanced technology and visionary thinking. The overall aesthetic is sleek and clean, aligning with modern corporate minimalism."
@@ -378,7 +378,7 @@
                 </div>
                 </section>
                 <!-- Testimonial Slider -->
-                <section class="py-24 bg-primary overflow-hidden">
+                <section id="about" class="py-24 bg-primary overflow-hidden">
                         <div class="max-w-container-max mx-auto px-margin-desktop relative">
                                 <div
                                         class="absolute -top-24 -left-24 w-96 h-96 bg-secondary-container/20 rounded-full blur-[120px]">
@@ -424,7 +424,7 @@
                         </div>
                 </section>
                 <!-- CTA Section -->
-                <section class="py-24">
+                <section id="contact" class="py-24">
                         <div class="max-w-container-max mx-auto px-margin-desktop">
                                 <div
                                         class="bg-surface-container-highest rounded-[40px] p-16 text-center relative overflow-hidden">
@@ -438,19 +438,19 @@
                                                 Join the thousands of businesses already optimizing their logistics with
                                                 SupplyLink's premier supplier network.</p>
                                         <div class="flex flex-wrap justify-center gap-6">
-                                                <button
+                                                <a href="{{ route('register') }}"
                                                         class="bg-primary text-on-primary px-12 py-5 rounded-full font-label-md text-label-md font-bold transition-all hover:scale-105 shadow-xl">Get
-                                                        Started Now</button>
-                                                <button
+                                                        Started Now</a>
+                                                <a href="mailto:sales@supplylink.test?subject=SupplyLink%20Sales%20Request"
                                                         class="border-2 border-primary text-primary px-12 py-5 rounded-full font-label-md text-label-md font-bold transition-all hover:bg-primary/5">Talk
-                                                        to Sales</button>
+                                                        to Sales</a>
                                         </div>
                                 </div>
                         </div>
                 </section>
         </main>
         <!-- Footer -->
-        <footer class="bg-surface-container-low border-t border-outline-variant/50">
+        <footer id="legal" class="bg-surface-container-low border-t border-outline-variant/50">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-12 px-margin-desktop max-w-container-max mx-auto">
                         <div class="col-span-1 md:col-span-1">
                                 <div class="flex items-center gap-2 mb-6">
@@ -468,11 +468,11 @@
                                         Product</h5>
                                 <ul class="space-y-4">
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Solution</a></li>
+                                                        href="#solution">Solution</a></li>
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Features</a></li>
+                                                        href="#features">Features</a></li>
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Pricing</a></li>
+                                                        href="#pricing">Pricing</a></li>
                                 </ul>
                         </div>
                         <div>
@@ -480,11 +480,11 @@
                                         Company</h5>
                                 <ul class="space-y-4">
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">About</a></li>
+                                                        href="#about">About</a></li>
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Careers</a></li>
+                                                        href="mailto:careers@supplylink.test?subject=SupplyLink%20Careers">Careers</a></li>
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Contact</a></li>
+                                                        href="#contact">Contact</a></li>
                                 </ul>
                         </div>
                         <div>
@@ -492,25 +492,25 @@
                                         Legal</h5>
                                 <ul class="space-y-4">
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Privacy Policy</a></li>
+                                                        href="#legal">Privacy Policy</a></li>
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Terms of Service</a></li>
+                                                        href="#legal">Terms of Service</a></li>
                                         <li><a class="text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4 font-label-sm text-label-sm"
-                                                        href="#">Security</a></li>
+                                                        href="#legal">Security</a></li>
                                 </ul>
                         </div>
                 </div>
                 <div
                         class="border-t border-outline-variant/30 py-8 px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 SupplyLink Logistics. All
+                        <p class="font-label-sm text-label-sm text-on-surface-variant">&copy; 2024 SupplyLink Logistics. All
                                 rights reserved.</p>
                         <div class="flex gap-6">
-                                <span
-                                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span>
-                                <span
-                                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">shield</span>
-                                <span
-                                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span>
+                                <a href="#top" aria-label="Back to top"><span
+                                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">language</span></a>
+                                <a href="#legal" aria-label="Security"><span
+                                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">shield</span></a>
+                                <a href="mailto:?subject=SupplyLink&body={{ url('/') }}" aria-label="Share SupplyLink"><span
+                                        class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">share</span></a>
                         </div>
                 </div>
         </footer>
