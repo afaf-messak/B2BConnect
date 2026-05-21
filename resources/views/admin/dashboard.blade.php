@@ -128,29 +128,37 @@
 </div>
 </div>
 <nav class="flex-1 space-y-1">
-<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 bg-secondary-container text-on-secondary-container rounded-xl transition-all duration-200 active:scale-[0.98]" href="#">
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 bg-secondary-container text-on-secondary-container rounded-xl transition-all duration-200 active:scale-[0.98]" href="{{ route('admin.dashboard') }}">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="font-label-md text-label-md">Dashboard</span>
 </a>
-<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="#">
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="{{ route('admin.users') }}">
 <span class="material-symbols-outlined">group</span>
 <span class="font-label-md text-label-md">Users</span>
 </a>
-<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="#">
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="{{ route('admin.demandes') }}">
+<span class="material-symbols-outlined">assignment</span>
+<span class="font-label-md text-label-md">Demandes</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="{{ route('admin.offers') }}">
+<span class="material-symbols-outlined">request_quote</span>
+<span class="font-label-md text-label-md">Offers</span>
+</a>
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="{{ route('admin.moderation') }}">
 <span class="material-symbols-outlined">gavel</span>
 <span class="font-label-md text-label-md">Moderation</span>
 </a>
-<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="#">
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="{{ route('admin.logs') }}">
 <span class="material-symbols-outlined">list_alt</span>
 <span class="font-label-md text-label-md">System Logs</span>
 </a>
-<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="#">
+<a class="flex items-center gap-4 py-3 px-4 mx-4 mb-2 text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:translate-x-1 duration-200 transition-all active:scale-[0.98]" href="{{ route('admin.messages') }}">
 <span class="material-symbols-outlined">mail</span>
 <span class="font-label-md text-label-md">Messages</span>
 </a>
 </nav>
 <div class="px-4 mt-auto border-t border-outline-variant/10 pt-6 space-y-1">
-<a class="flex items-center gap-4 py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all hover:translate-x-1" href="#">
+<a class="flex items-center gap-4 py-3 px-4 text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all hover:translate-x-1" href="{{ route('admin.settings') }}">
 <span class="material-symbols-outlined">settings</span>
 <span class="font-label-md text-label-md">Settings</span>
 </a>

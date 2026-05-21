@@ -132,11 +132,11 @@
 <span class="font-label-md text-label-md">Dashboard</span>
 </a>
 <!-- Active State: Demandes -->
-<a class="flex items-center px-4 py-3 bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-xl mx-4 mb-2 transition-all duration-200 hover:translate-x-1 active:scale-[0.98]" href="{{ route('demande.index') }}">
+<a class="flex items-center px-4 py-3 bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-xl mx-4 mb-2 transition-all duration-200 hover:translate-x-1 active:scale-[0.98]" href="{{ route('client.demandes.index') }}">
 <span class="material-symbols-outlined mr-4" style="font-variation-settings: 'FILL' 1;">assignment</span>
 <span class="font-label-md text-label-md">Demandes</span>
 </a>
-<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high mx-4 mb-2 rounded-xl transition-all duration-200 hover:translate-x-1 active:scale-[0.98]" href="{{ route('offres.index') }}">
+<a class="flex items-center px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high mx-4 mb-2 rounded-xl transition-all duration-200 hover:translate-x-1 active:scale-[0.98]" href="{{ route('client.offers.index') }}">
 <span class="material-symbols-outlined mr-4">local_offer</span>
 <span class="font-label-md text-label-md">Offres</span>
 </a>
@@ -279,7 +279,7 @@
 <!-- Requests List - Professional Card Pattern -->
 <div id="requests" class="space-y-4">
 <!-- Request Item 1 (Active) -->
-<div onclick="location.href='{{ route('demande.show', 1) }}'" role="link" tabindex="0" onkeydown="if(event.key === 'Enter') location.href='{{ route('demande.show', 1) }}'" class="bg-white hover:bg-surface-container-low transition-all duration-300 p-6 rounded-[24px] border border-outline-variant/50 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer shadow-sm hover:shadow-md">
+<div onclick="location.href='{{ route('client.demandes.show', 1) }}'" role="link" tabindex="0" onkeydown="if(event.key === 'Enter') location.href='{{ route('client.demandes.show', 1) }}'" class="bg-white hover:bg-surface-container-low transition-all duration-300 p-6 rounded-[24px] border border-outline-variant/50 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer shadow-sm hover:shadow-md">
 <div class="flex items-center gap-6 w-full md:w-auto">
 <div class="w-14 h-14 bg-secondary-container rounded-2xl flex items-center justify-center flex-shrink-0">
 <span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">flight_takeoff</span>
@@ -325,7 +325,7 @@
 </div>
 </div>
 <!-- Request Item 2 (Pending Review) -->
-<div onclick="location.href='{{ route('demande.show', 2) }}'" role="link" tabindex="0" onkeydown="if(event.key === 'Enter') location.href='{{ route('demande.show', 2) }}'" class="bg-white hover:bg-surface-container-low transition-all duration-300 p-6 rounded-[24px] border border-outline-variant/50 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer shadow-sm hover:shadow-md">
+<div onclick="location.href='{{ route('client.demandes.show', 2) }}'" role="link" tabindex="0" onkeydown="if(event.key === 'Enter') location.href='{{ route('client.demandes.show', 2) }}'" class="bg-white hover:bg-surface-container-low transition-all duration-300 p-6 rounded-[24px] border border-outline-variant/50 flex flex-col md:flex-row items-center justify-between gap-6 group cursor-pointer shadow-sm hover:shadow-md">
 <div class="flex items-center gap-6 w-full md:w-auto">
 <div class="w-14 h-14 bg-surface-container-highest rounded-2xl flex items-center justify-center flex-shrink-0">
 <span class="material-symbols-outlined text-on-surface-variant">directions_boat</span>
@@ -383,7 +383,7 @@
 <p class="text-on-surface-variant font-label-sm text-label-sm">Last edited 2 hours ago</p>
 </div>
 </div>
-<a href="{{ route('demande.show', 3) }}" class="text-primary font-label-md text-label-md hover:underline">Complete Draft</a>
+<a href="{{ route('client.demandes.show', 3) }}" class="text-primary font-label-md text-label-md hover:underline">Complete Draft</a>
 </div>
 </div>
 <!-- Pagination Mockup -->
@@ -458,8 +458,8 @@
 </div>
 <div class="flex flex-col gap-3">
 <h5 class="font-label-md text-label-md text-on-surface font-bold">Resources</h5>
-<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="{{ route('demande.index') }}">Solutions Guide</a>
-<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="{{ route('offres.index') }}">Carrier Network</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="{{ route('client.demandes.index') }}">Solutions Guide</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="{{ route('client.suppliers.index') }}">Carrier Network</a>
 <a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors hover:underline underline-offset-4" href="{{ route('profile.edit') }}">Security</a>
 </div>
 <div class="flex flex-col gap-3">
@@ -541,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!payload.needed_at) delete payload.needed_at;
 
         try {
-            const response = await fetch('{{ route('demande.store') }}', {
+            const response = await fetch('{{ route('client.demandes.store') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -567,3 +567,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 </body></html>
+

@@ -62,7 +62,7 @@
         <header class="border-b border-outline-variant/20 sticky top-0 z-50 bg-surface/95 backdrop-blur">
                 <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                                <a href="{{ route('demande.index') }}"
+                                <a href="{{ route('client.demandes.index') }}"
                                         class="p-2 hover:bg-surface-container rounded-full transition">
                                         <span class="material-symbols-outlined text-primary">arrow_back</span>
                                 </a>

@@ -13,7 +13,7 @@ class SupplierProfileController extends Controller
         $companyName = $supplier?->company_name ?: 'Global Logistics Dynamics';
         $supplierName = $supplier?->name ?? 'Supplier';
 
-        return view('supplier.suppierprofile', [
+        return view('supplier.profile', [
             'supplierName' => $supplierName,
             'supplierInitials' => $this->initials($supplierName),
             'company' => [
