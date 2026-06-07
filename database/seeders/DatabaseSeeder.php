@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             NotificationSeeder::class,
             MessageSeeder::class,
             DocumentVerificationSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

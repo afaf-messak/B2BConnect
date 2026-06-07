@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Demande;
 use App\Models\Offre;
+use App\Support\Navigation;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -12,6 +13,7 @@ class SupplierDashboardController extends Controller
     public function index(Request $request): View
     {
         $supplier = $request->user();
+        \App\Models\SupplierProfile::ensureFor($supplier);
         $supplierName = $supplier?->name ?? 'Supplier';
         $supplierInitials = $this->initials($supplierName);
 
@@ -63,31 +65,16 @@ class SupplierDashboardController extends Controller
         return view('supplier.supplierDashboard', [
             'supplierName' => $supplierName,
             'supplierInitials' => $supplierInitials,
-            'stats' => [
-                [
-                    'label' => 'Demandes en attente',
-                    'value' => (string) $pendingRequests,
-                    'badge' => '+' . $requestsToday . ' aujourd hui',
-                    'icon' => 'pending_actions',
-                    'tone' => 'primary',
-                ],
-                [
-                    'label' => 'Offres envoyees',
-                    'value' => (string) $offersSent,
-                    'badge' => $activeOffers . ' actives',
-                    'icon' => 'send',
-                    'tone' => 'secondary',
-                ],
-                [
-                    'label' => 'Revenu mensuel',
-                    'value' => $this->compactMoney((float) $monthlyRevenue),
-                    'badge' => 'Ce mois',
-                    'icon' => 'payments',
-                    'tone' => 'tertiary',
-                ],
-            ],
             'requests' => $requests,
-            'navItems' => $this->navItems(),
+            'navItems' => Navigation::supplierItems('dashboard', $supplier),
+            'navActive' => 'dashboard',
+            'pageTitle' => __('nav.dashboard'),
+            'pageSubtitle' => __('dashboard.supplier_subtitle'),
+            'stats' => [
+                ['label' => __('nav.demandes'), 'value' => (string) $pendingRequests, 'badge' => '+'.$requestsToday.' '.__('common.today'), 'icon' => 'assignment'],
+                ['label' => __('nav.sent_offers'), 'value' => (string) $offersSent, 'badge' => $activeOffers.' '.__('common.active'), 'icon' => 'local_offer'],
+                ['label' => __('nav.products'), 'value' => (string) $supplier->products()->count(), 'badge' => __('common.catalogue'), 'icon' => 'inventory_2'],
+            ],
             'profileCompletion' => 85,
         ]);
     }
@@ -120,17 +107,6 @@ class SupplierDashboardController extends Controller
         }
 
         return '$' . number_format($amount, 2);
-    }
-
-    private function navItems(): array
-    {
-        return [
-            ['label' => 'Dashboard', 'icon' => 'dashboard', 'href' => route('supplier.dashboard'), 'active' => true],
-            ['label' => 'Demandes', 'icon' => 'assignment', 'href' => route('supplier.dashboard'), 'active' => false],
-            ['label' => 'Offres', 'icon' => 'local_offer', 'href' => route('supplier.offers'), 'active' => false],
-            ['label' => 'Messages', 'icon' => 'mail', 'href' => 'mailto:support@supplylink.test', 'active' => false],
-            ['label' => 'Profile', 'icon' => 'person', 'href' => route('supplier.profile'), 'active' => false],
-        ];
     }
 
     private function demoRequests(): array

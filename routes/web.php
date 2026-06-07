@@ -1,100 +1,125 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminModerationController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminStatisticsController;
+use App\Http\Controllers\ClientDashboardController;
+use App\Http\Controllers\ClientDemandeViewController;
+use App\Http\Controllers\ClientFavoriteController;
+use App\Http\Controllers\ClientOfferController;
+use App\Http\Controllers\ClientOrderController;
+use App\Http\Controllers\ClientProductOrderController;
+use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DemandeController;
+use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicMarketplaceController;
 use App\Http\Controllers\SupplierDashboardController;
+use App\Http\Controllers\SupplierDemandeController;
 use App\Http\Controllers\SupplierOffersController;
+use App\Http\Controllers\SupplierOrderController;
+use App\Http\Controllers\SupplierProductController;
 use App\Http\Controllers\SupplierProfileController;
+use App\Http\Controllers\SupplierQuotationController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('LandingPage');
+Route::get('/', fn () => view('landing.index'));
+
+Route::get('/products', [ProductCatalogController::class, 'index'])->name('products.catalog');
+Route::get('/products/{product}', [ProductCatalogController::class, 'show'])->name('products.show');
+
+Route::prefix('marketplace')->name('marketplace.')->group(function () {
+    Route::get('/suppliers', [PublicMarketplaceController::class, 'suppliers'])->name('suppliers.index');
+    Route::get('/suppliers/{profile:slug}', [PublicMarketplaceController::class, 'supplierShow'])->name('suppliers.show');
 });
 
-Route::redirect('/dashboard', '/client/dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::post('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::prefix('client')->name('client.')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('client.dashboard');
-        })->name('dashboard');
+    Route::middleware('role:'.User::ROLE_CLIENT.','.User::ROLE_SUPPLIER)->prefix('messages')->name('messages.')->group(function () {
+        Route::get('/', [ConversationController::class, 'index'])->name('index');
+        Route::get('/with/{user}', [ConversationController::class, 'show'])->name('show');
+        Route::get('/with/{user}/poll', [ConversationController::class, 'poll'])->name('poll');
+        Route::post('/with/{user}', [ConversationController::class, 'store'])->name('store');
+    });
+
+    Route::middleware('role:'.User::ROLE_CLIENT)->prefix('client')->name('client.')->group(function () {
+        Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/orders', [ClientOrderController::class, 'index'])->name('orders.index');
 
         Route::prefix('demandes')->name('demandes.')->group(function () {
-            Route::get('/', function () {
-                return view('client.demande.index');
-            })->name('index');
-
-            Route::get('/{demande}', function (\App\Models\Demande $demande) {
-                return view('client.demande.show', [
-                    'demande' => $demande->load(['user', 'orders', 'offres', 'messages']),
-                ]);
-            })->name('show');
-
-            Route::post('/', [\App\Http\Controllers\DemandeController::class, 'store'])->name('store');
-            Route::put('/{demande}', [\App\Http\Controllers\DemandeController::class, 'update'])->name('update');
-            Route::delete('/{demande}', [\App\Http\Controllers\DemandeController::class, 'destroy'])->name('destroy');
+            Route::get('/', [ClientDemandeViewController::class, 'index'])->name('index');
+            Route::get('/{demande}', [ClientDemandeViewController::class, 'show'])->name('show');
+            Route::post('/', [DemandeController::class, 'store'])->name('store');
+            Route::put('/{demande}', [DemandeController::class, 'update'])->name('update');
+            Route::delete('/{demande}', [DemandeController::class, 'destroy'])->name('destroy');
         });
 
-        Route::get('/suppliers', function () {
-            return view('client.suppliers');
-        })->name('suppliers.index');
+        Route::get('/suppliers', fn () => redirect()->route('marketplace.suppliers.index'))->name('suppliers.index');
+        Route::get('/suppliers/{supplier}', function (User $supplier) {
+            $profile = $supplier->supplierProfile ?? \App\Models\SupplierProfile::ensureFor($supplier);
+
+            return redirect()->route('marketplace.suppliers.show', $profile);
+        })->name('suppliers.show');
+
+        Route::get('/favorites', [ClientFavoriteController::class, 'index'])->name('favorites.index');
+        Route::post('/favorites/{supplier}', [ClientFavoriteController::class, 'store'])->name('favorites.store');
+        Route::delete('/favorites/{supplier}', [ClientFavoriteController::class, 'destroy'])->name('favorites.destroy');
+
+        Route::post('/products/{product}/order', [ClientProductOrderController::class, 'store'])->name('products.order');
 
         Route::prefix('offres')->name('offers.')->group(function () {
-            Route::get('/', function () {
-                return view('client.offers');
-            })->name('index');
-
-            Route::get('/{offre}', function (\App\Models\Offre $offre) {
-                return view('client.offers', ['selectedOffre' => $offre->load(['user', 'demande', 'messages'])]);
-            })->name('show');
-
-            Route::post('/', [\App\Http\Controllers\OffreController::class, 'store'])->name('store');
-            Route::put('/{offre}', [\App\Http\Controllers\OffreController::class, 'update'])->name('update');
-            Route::delete('/{offre}', [\App\Http\Controllers\OffreController::class, 'destroy'])->name('destroy');
+            Route::get('/', [ClientOfferController::class, 'index'])->name('index');
+            Route::post('/{offre}/accept', [ClientOfferController::class, 'accept'])->name('accept');
+            Route::post('/{offre}/reject', [ClientOfferController::class, 'reject'])->name('reject');
         });
     });
 
-    Route::prefix('supplier')->name('supplier.')->group(function () {
+    Route::middleware('role:'.User::ROLE_SUPPLIER)->prefix('supplier')->name('supplier.')->group(function () {
         Route::get('/dashboard', [SupplierDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/demandes', [SupplierDemandeController::class, 'index'])->name('demandes.index');
+        Route::get('/demandes/{demande}/quote', [SupplierQuotationController::class, 'create'])->name('demandes.quote');
+        Route::post('/demandes/{demande}/quote', [SupplierQuotationController::class, 'store'])->name('demandes.quote.store');
+        Route::get('/orders', [SupplierOrderController::class, 'index'])->name('orders.index');
         Route::get('/offers', [SupplierOffersController::class, 'index'])->name('offers');
         Route::get('/offers/export', [SupplierOffersController::class, 'export'])->name('offers.export');
-        Route::patch('/offers/{offre}/accept', [SupplierOffersController::class, 'accept'])->name('offers.accept');
-        Route::patch('/offers/{offre}/reject', [SupplierOffersController::class, 'reject'])->name('offers.reject');
         Route::get('/profile', [SupplierProfileController::class, 'show'])->name('profile');
+        Route::get('/profile/edit', [SupplierProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [SupplierProfileController::class, 'update'])->name('profile.update');
+        Route::resource('products', SupplierProductController::class)->except(['show']);
     });
 
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+    Route::middleware('role:'.User::ROLE_ADMIN)->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/statistics', [AdminStatisticsController::class, 'index'])->name('statistics');
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/demandes', [AdminController::class, 'demandes'])->name('demandes');
         Route::get('/offers', [AdminController::class, 'offers'])->name('offers');
-        Route::get('/moderation', [AdminController::class, 'moderation'])->name('moderation');
-        Route::get('/logs', [AdminController::class, 'logs'])->name('logs');
-        Route::get('/messages', [AdminController::class, 'messages'])->name('messages');
+        Route::get('/moderation', [AdminModerationController::class, 'index'])->name('moderation');
+        Route::patch('/moderation/{document}/approve', [AdminModerationController::class, 'approve'])->name('moderation.approve');
+        Route::patch('/moderation/{document}/reject', [AdminModerationController::class, 'reject'])->name('moderation.reject');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
     });
 
     Route::redirect('/demande', '/client/demandes');
-    Route::get('/demande/{demande}', function (\App\Models\Demande $demande) {
-        return redirect()->route('client.demandes.show', $demande);
-    });
-
+    Route::get('/demande/{demande}', fn (\App\Models\Demande $demande) => redirect()->route('client.demandes.show', $demande));
     Route::redirect('/offres', '/client/offres');
-    Route::get('/offres/{offre}', function (\App\Models\Offre $offre) {
-        return redirect()->route('client.offers.show', $offre);
-    });
-
     Route::redirect('/suppliers', '/client/suppliers');
-
     Route::redirect('/admin', '/admin/dashboard');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

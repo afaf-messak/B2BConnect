@@ -2,86 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FavoriteSupplier;
+use App\Models\Offre;
+use App\Models\SupplierProfile;
+use App\Models\User;
+use App\Support\Navigation;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SupplierProfileController extends Controller
 {
-    public function show(Request $request): View
+    public function show(Request $request): View|RedirectResponse
     {
         $supplier = $request->user();
-        $companyName = $supplier?->company_name ?: 'Global Logistics Dynamics';
-        $supplierName = $supplier?->name ?? 'Supplier';
+        $profile = SupplierProfile::ensureFor($supplier);
 
-        return view('supplier.profile', [
-            'supplierName' => $supplierName,
-            'supplierInitials' => $this->initials($supplierName),
-            'company' => [
-                'name' => $companyName,
-                'status' => 'Verified Supplier',
-                'rating' => '4.8',
-                'reviews_count' => '124 Reviews',
-                'location' => 'Berlin, Germany',
-                'address' => 'Kurfurstendamm 213, 10719 Berlin, Germany',
-                'phone' => '+49 30 1234 5678',
-                'website' => 'www.gld-logistics.com',
-                'certification' => 'ISO 9001:2015 Certified',
-                'response_time' => '< 2 hours',
-                'logo_url' => 'https://images.unsplash.com/photo-1560472355-536de3962603?auto=format&fit=crop&w=400&q=80',
-                'map_url' => 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=900&q=80',
-            ],
+        if ($request->boolean('preview')) {
+            return redirect()->route('marketplace.suppliers.show', $profile);
+        }
+
+        $profile->loadMissing('user');
+
+        return view('supplier.profile.show', [
+            'supplier' => $supplier,
+            'profile' => $profile,
             'stats' => [
-                ['value' => '50k+', 'label' => 'Annual Shipments'],
-                ['value' => '99.8%', 'label' => 'Delivery Rate'],
-                ['value' => '12', 'label' => 'Global Offices'],
+                'products' => $supplier->products()->count(),
+                'offers_sent' => Offre::where('user_id', $supplier->id)->count(),
+                'offers_won' => Offre::where('user_id', $supplier->id)->where('status', 'accepted')->count(),
+                'rating' => $profile->averageRating(),
+                'reviews' => $profile->reviewsCount(),
             ],
-            'services' => [
-                ['title' => 'Express Freight', 'description' => 'Time-sensitive road transport across the EU.', 'icon' => 'local_shipping'],
-                ['title' => 'Smart Warehousing', 'description' => 'Automated inventory management and fulfillment.', 'icon' => 'inventory_2'],
-                ['title' => 'Global Air Cargo', 'description' => 'Priority air freight with real-time tracking.', 'icon' => 'flight'],
-                ['title' => 'Customs Clearance', 'description' => 'Expert handling of cross-border regulations.', 'icon' => 'gavel'],
-            ],
-            'reviews' => [
-                [
-                    'initials' => 'SC',
-                    'name' => 'SwiftCommerce Inc.',
-                    'date' => '2 days ago',
-                    'rating' => 5,
-                    'body' => 'Exceptional service on our last three transatlantic shipments. Their communication is proactive and the custom dashboard makes tracking effortless.',
-                ],
-                [
-                    'initials' => 'NB',
-                    'name' => 'Nordic Build Group',
-                    'date' => '1 week ago',
-                    'rating' => 4,
-                    'body' => 'Reliable partner for heavy machinery transport. One minor delay due to weather, but they handled the rescheduling perfectly.',
-                ],
-            ],
-            'accreditations' => ['IATA', 'FIATA', 'AEO', 'Lean Six Sigma'],
-            'navItems' => $this->navItems(),
+            'navItems' => Navigation::supplierItems('company', $supplier),
         ]);
     }
 
-    private function initials(string $name): string
+    public function edit(Request $request): View
     {
-        $parts = array_filter(explode(' ', trim($name)));
-        $initials = '';
+        $supplier = $request->user();
+        $profile = SupplierProfile::ensureFor($supplier);
 
-        foreach (array_slice($parts, 0, 2) as $part) {
-            $initials .= strtoupper(substr($part, 0, 1));
-        }
-
-        return $initials ?: 'S';
+        return view('supplier.profile.edit', [
+            'supplier' => $supplier,
+            'profile' => $profile,
+            'navItems' => Navigation::supplierItems('company', $supplier),
+        ]);
     }
 
-    private function navItems(): array
+    public function update(Request $request): RedirectResponse
     {
-        return [
-            ['label' => 'Dashboard', 'icon' => 'dashboard', 'href' => route('supplier.dashboard'), 'active' => false],
-            ['label' => 'Offres', 'icon' => 'local_offer', 'href' => route('supplier.offers'), 'active' => false],
-            ['label' => 'Demandes', 'icon' => 'assignment', 'href' => route('supplier.dashboard'), 'active' => false],
-            ['label' => 'Messages', 'icon' => 'mail', 'href' => 'mailto:support@supplylink.test', 'active' => false],
-            ['label' => 'Profile', 'icon' => 'person', 'href' => route('supplier.profile'), 'active' => true],
-        ];
+        $supplier = $request->user();
+        $profile = SupplierProfile::ensureFor($supplier);
+
+        $validated = $request->validate([
+            'tagline' => ['nullable', 'string', 'max:255'],
+            'bio' => ['nullable', 'string', 'max:5000'],
+            'industry' => ['nullable', 'string', 'max:100'],
+            'city' => ['nullable', 'string', 'max:100'],
+            'region' => ['nullable', 'string', 'max:100'],
+            'country' => ['nullable', 'string', 'max:100'],
+            'website' => ['nullable', 'url', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:30'],
+            'response_time_hours' => ['nullable', 'integer', 'min:1', 'max:168'],
+            'is_public' => ['sometimes', 'boolean'],
+        ]);
+
+        $profile->update([
+            ...$validated,
+            'is_public' => $request->boolean('is_public', true),
+        ]);
+
+        $supplier->update([
+            'company_name' => $request->input('company_name', $supplier->company_name),
+        ]);
+
+        return redirect()
+            ->route('supplier.profile')
+            ->with('success', __('marketplace.profile_updated'));
     }
 }

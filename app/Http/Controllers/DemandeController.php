@@ -9,9 +9,15 @@ use Illuminate\Validation\Rule;
 
 class DemandeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Demande::with('user')->latest()->paginate(10);
+        $query = Demande::query()->with('user')->latest();
+
+        if ($request->user()) {
+            $query->where('user_id', $request->user()->id);
+        }
+
+        return $query->paginate(10);
     }
 
     public function store(Request $request)

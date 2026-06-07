@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Navigation;
 use App\Models\Demande;
 use App\Models\DocumentVerification;
 use App\Models\Message;
@@ -27,7 +28,7 @@ class AdminController extends Controller
             ])
             ->all();
 
-        return $this->resourceView('Users', 'Manage clients, suppliers, and platform accounts.', 'group', [
+        return $this->resourceView('users', 'Users', 'Manage clients, suppliers, and platform accounts.', 'group', [
             ['label' => 'Total users', 'value' => User::count()],
             ['label' => 'Clients', 'value' => User::where('role', 'client')->count()],
             ['label' => 'Suppliers', 'value' => User::where('role', 'supplier')->count()],
@@ -50,7 +51,7 @@ class AdminController extends Controller
             ])
             ->all();
 
-        return $this->resourceView('Demandes', 'Monitor client requests and operational demand flow.', 'assignment', [
+        return $this->resourceView('demandes', 'Demandes', 'Monitor client requests and operational demand flow.', 'assignment', [
             ['label' => 'Total demandes', 'value' => Demande::count()],
             ['label' => 'Pending', 'value' => Demande::where('status', 'pending')->count()],
             ['label' => 'Completed', 'value' => Demande::where('status', 'completed')->count()],
@@ -73,7 +74,7 @@ class AdminController extends Controller
             ])
             ->all();
 
-        return $this->resourceView('Offers', 'Review supplier proposals, pricing, and acceptance status.', 'request_quote', [
+        return $this->resourceView('offers', 'Offers', 'Review supplier proposals, pricing, and acceptance status.', 'request_quote', [
             ['label' => 'Total offers', 'value' => Offre::count()],
             ['label' => 'Pending', 'value' => Offre::where('status', 'pending')->count()],
             ['label' => 'Accepted', 'value' => Offre::where('status', 'accepted')->count()],
@@ -96,7 +97,7 @@ class AdminController extends Controller
             ])
             ->all();
 
-        return $this->resourceView('Moderation', 'Review document checks, escalations, and flagged activity.', 'gavel', [
+        return $this->resourceView('moderation', 'Moderation', 'Review document checks, escalations, and flagged activity.', 'gavel', [
             ['label' => 'Pending reviews', 'value' => DocumentVerification::where('status', 'pending')->count()],
             ['label' => 'Approved', 'value' => DocumentVerification::where('status', 'approved')->count()],
             ['label' => 'Rejected', 'value' => DocumentVerification::where('status', 'rejected')->count()],
@@ -105,7 +106,7 @@ class AdminController extends Controller
 
     public function logs(): View
     {
-        return $this->resourceView('System Logs', 'Operational events and platform health signals.', 'terminal', [
+        return $this->resourceView('logs', 'System Logs', 'Operational events and platform health signals.', 'terminal', [
             ['label' => 'Events today', 'value' => Notification::whereDate('created_at', today())->count()],
             ['label' => 'Warnings', 'value' => 3],
             ['label' => 'Services online', 'value' => 8],
@@ -132,7 +133,7 @@ class AdminController extends Controller
             ])
             ->all();
 
-        return $this->resourceView('Messages', 'Audit client and supplier communication activity.', 'mail', [
+        return $this->resourceView('messages', 'Messages', 'Audit client and supplier communication activity.', 'mail', [
             ['label' => 'Total messages', 'value' => Message::count()],
             ['label' => 'Unread', 'value' => Message::whereNull('read_at')->count()],
             ['label' => 'Today', 'value' => Message::whereDate('created_at', today())->count()],
@@ -141,7 +142,7 @@ class AdminController extends Controller
 
     public function settings(): View
     {
-        return $this->resourceView('Settings', 'Platform configuration and administrative controls.', 'settings', [
+        return $this->resourceView('settings', 'Settings', 'Platform configuration and administrative controls.', 'settings', [
             ['label' => 'Roles', 'value' => 3],
             ['label' => 'Policies', 'value' => 6],
             ['label' => 'Integrations', 'value' => 4],
@@ -152,7 +153,7 @@ class AdminController extends Controller
         ]);
     }
 
-    private function resourceView(string $title, string $description, string $icon, array $stats, array $rows): View
+    private function resourceView(string $navKey, string $title, string $description, string $icon, array $stats, array $rows): View
     {
         return view('admin.resource', [
             'title' => $title,
@@ -160,22 +161,11 @@ class AdminController extends Controller
             'icon' => $icon,
             'stats' => $stats,
             'rows' => $rows,
-            'navItems' => $this->navItems($title),
+            'navItems' => Navigation::adminItems($navKey),
+            'navActive' => $navKey,
+            'pageTitle' => $title,
+            'pageSubtitle' => $description,
         ]);
-    }
-
-    private function navItems(string $active): array
-    {
-        return [
-            ['label' => 'Dashboard', 'icon' => 'dashboard', 'href' => route('admin.dashboard'), 'active' => $active === 'Dashboard'],
-            ['label' => 'Users', 'icon' => 'group', 'href' => route('admin.users'), 'active' => $active === 'Users'],
-            ['label' => 'Demandes', 'icon' => 'assignment', 'href' => route('admin.demandes'), 'active' => $active === 'Demandes'],
-            ['label' => 'Offers', 'icon' => 'request_quote', 'href' => route('admin.offers'), 'active' => $active === 'Offers'],
-            ['label' => 'Moderation', 'icon' => 'gavel', 'href' => route('admin.moderation'), 'active' => $active === 'Moderation'],
-            ['label' => 'System Logs', 'icon' => 'list_alt', 'href' => route('admin.logs'), 'active' => $active === 'System Logs'],
-            ['label' => 'Messages', 'icon' => 'mail', 'href' => route('admin.messages'), 'active' => $active === 'Messages'],
-            ['label' => 'Settings', 'icon' => 'settings', 'href' => route('admin.settings'), 'active' => $active === 'Settings'],
-        ];
     }
 
     private function demoUsers(): array

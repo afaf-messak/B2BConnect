@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Models\User;
+use App\Support\RoleRedirect;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,6 +31,6 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(RoleRedirect::urlFor(User::where('email', 'test@example.com')->first()));
     }
 }

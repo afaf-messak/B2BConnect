@@ -165,6 +165,9 @@
 <h2 class="font-headline-lg text-headline-lg text-on-surface">Complete your profile</h2>
 <p class="font-body-md text-body-md text-on-surface-variant">Fill in the details below to create your professional SupplyLink account.</p>
 </div>
+@include('partials.design-system')
+@include('partials.social-auth-buttons', ['compact' => true, 'alwaysShow' => true])
+<p class="my-6 text-center text-sm text-on-surface-variant">{{ __('social.or_email') }}</p>
 <form class="space-y-6" method="POST" action="{{ route('register') }}">
 @csrf
 <input id="account_role" name="role" type="hidden" value="{{ old('role', 'client') }}"/>

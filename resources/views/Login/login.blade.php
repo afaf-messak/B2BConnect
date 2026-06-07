@@ -203,27 +203,6 @@
 </p>
 </div>
 </div>
-<!-- Floating Decorative Graphic (Asymmetric Layout element) -->
-<div class="hidden lg:block absolute right-[10%] top-1/2 translate-y-[-50%] w-[320px] glass-morphism p-6 rounded-[24px] shadow-xl rotate-3">
-<div class="flex items-center gap-4 mb-4">
-<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
-</div>
-<div>
-<div class="font-label-md text-on-surface">Global Transit</div>
-<div class="text-[10px] text-on-surface-variant">Real-time Node Status</div>
-</div>
-</div>
-<div class="space-y-3">
-<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[75%] rounded-full"></div>
-</div>
-<div class="flex justify-between text-[10px] font-label-sm text-on-surface-variant">
-<span>Active Shipments: 1,240</span>
-<span class="text-primary">94% Efficiency</span>
-</div>
-</div>
-</div>
 </main>
 <!-- Support Footer (Minimalist for Auth) -->
 <footer class="py-8 px-margin-desktop w-full max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
