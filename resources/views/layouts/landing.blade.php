@@ -10,7 +10,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     @if (app()->getLocale() === 'ar')
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     @endif
@@ -46,9 +46,11 @@
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'float-delayed': 'float 6s ease-in-out 2s infinite',
+                        'float-slow': 'float 10s ease-in-out 1s infinite',
                         'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
                         'gradient': 'gradient 8s ease infinite',
                         'shimmer': 'shimmer 2.5s linear infinite',
+                        'fade-up': 'fade-up 0.8s ease-out forwards',
                     },
                     keyframes: {
                         float: {
@@ -67,6 +69,10 @@
                             '0%': { backgroundPosition: '-200% 0' },
                             '100%': { backgroundPosition: '200% 0' },
                         },
+                        'fade-up': {
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
                     },
                 },
             },
@@ -75,9 +81,10 @@
 
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     @include('landing.styles')
+    @include('partials.theme-styles')
 </head>
 <body
-    class="bg-[#fafafa] text-zinc-900 antialiased dark:bg-[#09090b] dark:text-zinc-100"
+    class="bg-[#fafafa] text-zinc-900 antialiased transition-colors duration-300 dark:text-zinc-100"
     x-data="landingPage()"
     x-init="init()"
 >
@@ -94,10 +101,10 @@
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
         AOS.init({
-            duration: 700,
+            duration: 800,
             easing: 'ease-out-cubic',
             once: true,
-            offset: 60,
+            offset: 80,
             disable: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
         });
     </script>

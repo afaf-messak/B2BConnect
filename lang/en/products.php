@@ -27,4 +27,5 @@ return [
     'view_profile' => 'View profile',
     'request_info' => 'Request info',
     'related' => 'More from this supplier',
+    'admin_subtitle' => 'Global product catalogue management',
 ];

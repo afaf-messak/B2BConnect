@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>SupplyLink - Supplier Listings</title>
+    <title>{{ __('common.app_name') }} - {{ __('dashboard.suppliers') ?? 'Supplier Listings' }}</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
@@ -162,13 +162,7 @@
 
     <aside class="fixed left-0 top-0 z-50 flex h-screen w-[280px] flex-col border-r border-outline-variant/40 bg-surface py-8">
         <div class="mb-12 flex items-center gap-3 px-8">
-            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white shadow-soft">
-                <span class="material-symbols-outlined">hub</span>
-            </div>
-            <div>
-                <h1 class="text-xl font-extrabold leading-6 text-primary">SupplyLink</h1>
-                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-on-surface-variant">Logistics Portal</p>
-            </div>
+            <x-b2b-logo size="sm" href="{{ route('client.dashboard') }}" />
         </div>
 
         <nav class="flex-1 space-y-2">

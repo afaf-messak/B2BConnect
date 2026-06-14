@@ -3,7 +3,7 @@
     $showSidebar = $showSidebar ?? false;
 @endphp
 <!DOCTYPE html>
-<html lang="{{ $locale }}" dir="{{ $locale === 'ar' ? 'rtl' : 'ltr' }}" class="light">
+<html lang="{{ $locale }}" dir="{{ $locale === 'ar' ? 'rtl' : 'ltr' }}" class="scroll-smooth">
 <head>
     @include('partials.saas-head', ['title' => $title ?? null])
     @stack('head')

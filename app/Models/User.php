@@ -21,6 +21,10 @@ class User extends Authenticatable
 
     public const STATUS_PENDING = 'pending';
 
+    public const STATUS_SUSPENDED = 'suspended';
+
+    public const STATUS_REJECTED = 'rejected';
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -156,6 +160,31 @@ class User extends Authenticatable
     public function isAccountActive(): bool
     {
         return $this->account_status === self::STATUS_ACTIVE;
+    }
+
+    public function isSuspended(): bool
+    {
+        return $this->account_status === self::STATUS_SUSPENDED;
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->account_status === self::STATUS_REJECTED;
+    }
+
+    public function supplierStatusLabel(): string
+    {
+        if (! $this->isSupplier()) {
+            return $this->account_status ?? self::STATUS_ACTIVE;
+        }
+
+        return match ($this->account_status) {
+            self::STATUS_ACTIVE => 'approved',
+            self::STATUS_PENDING => 'pending',
+            self::STATUS_REJECTED => 'rejected',
+            self::STATUS_SUSPENDED => 'suspended',
+            default => $this->account_status ?? 'pending',
+        };
     }
 
     public function dashboardRoute(): string

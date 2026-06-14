@@ -1,8 +1,9 @@
 <?php
 
 return [
-    'app_name' => 'SupplyLink',
-    'portal' => 'Portail logistique',
+    'app_name' => 'B2BConnect',
+    'tagline' => 'Connecter. Collaborer. Réussir.',
+    'portal' => 'Plateforme B2B',
     'search' => 'Rechercher...',
     'search_placeholder' => 'Rechercher commandes, fournisseurs ou documents...',
     'save' => 'Enregistrer',

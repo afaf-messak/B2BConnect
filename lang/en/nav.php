@@ -32,6 +32,8 @@ return [
         'orders' => 'Orders',
         'products' => 'Products',
         'statistics' => 'Statistics',
+        'analytics' => 'Analytics',
+        'messages' => 'Messages',
         'settings' => 'Settings',
     ],
 ];

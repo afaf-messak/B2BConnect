@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminDemandeController;
+use App\Http\Controllers\AdminMessageController;
+use App\Http\Controllers\AdminOfferController;
+use App\Http\Controllers\AdminSettingsController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminModerationController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminOrderController;
@@ -16,6 +20,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandeController;
 use App\Http\Controllers\LocaleController;
+use App\Http\Controllers\PortalSettingsController;
 use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicMarketplaceController;
@@ -29,7 +34,12 @@ use App\Http\Controllers\SupplierQuotationController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => view('landing.index'));
+Route::get('/', function () {
+    return view('landing.index', [
+        'landingStats' => \App\Support\LandingStats::items(),
+        'heroDashboard' => \App\Support\LandingStats::heroDashboard(),
+    ]);
+});
 
 Route::get('/products', [ProductCatalogController::class, 'index'])->name('products.catalog');
 Route::get('/products/{product}', [ProductCatalogController::class, 'show'])->name('products.show');
@@ -39,7 +49,7 @@ Route::prefix('marketplace')->name('marketplace.')->group(function () {
     Route::get('/suppliers/{profile:slug}', [PublicMarketplaceController::class, 'supplierShow'])->name('suppliers.show');
 });
 
-Route::post('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
+Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -57,6 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware('role:'.User::ROLE_CLIENT)->prefix('client')->name('client.')->group(function () {
         Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/settings', [PortalSettingsController::class, 'index'])->name('settings');
         Route::get('/orders', [ClientOrderController::class, 'index'])->name('orders.index');
 
         Route::prefix('demandes')->name('demandes.')->group(function () {
@@ -89,6 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware('role:'.User::ROLE_SUPPLIER)->prefix('supplier')->name('supplier.')->group(function () {
         Route::get('/dashboard', [SupplierDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/settings', [PortalSettingsController::class, 'index'])->name('settings');
         Route::get('/demandes', [SupplierDemandeController::class, 'index'])->name('demandes.index');
         Route::get('/demandes/{demande}/quote', [SupplierQuotationController::class, 'create'])->name('demandes.quote');
         Route::post('/demandes/{demande}/quote', [SupplierQuotationController::class, 'store'])->name('demandes.quote.store');
@@ -104,15 +116,48 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:'.User::ROLE_ADMIN)->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/statistics', [AdminStatisticsController::class, 'index'])->name('statistics');
-        Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
-        Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
-        Route::get('/users', [AdminController::class, 'users'])->name('users');
-        Route::get('/demandes', [AdminController::class, 'demandes'])->name('demandes');
-        Route::get('/offers', [AdminController::class, 'offers'])->name('offers');
+
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
+        Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
+        Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+        Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
+        Route::patch('/users/{user}/suspend', [AdminUserController::class, 'suspend'])->name('users.suspend');
+        Route::patch('/users/{user}/activate', [AdminUserController::class, 'activate'])->name('users.activate');
+        Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
         Route::get('/moderation', [AdminModerationController::class, 'index'])->name('moderation');
+        Route::get('/moderation/{document}', [AdminModerationController::class, 'show'])->name('moderation.show');
         Route::patch('/moderation/{document}/approve', [AdminModerationController::class, 'approve'])->name('moderation.approve');
         Route::patch('/moderation/{document}/reject', [AdminModerationController::class, 'reject'])->name('moderation.reject');
-        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+
+        Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
+        Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
+        Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
+        Route::get('/products/{product}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
+        Route::put('/products/{product}', [AdminProductController::class, 'update'])->name('products.update');
+        Route::delete('/products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
+
+        Route::get('/demandes', [AdminDemandeController::class, 'index'])->name('demandes.index');
+        Route::get('/demandes/create', [AdminDemandeController::class, 'create'])->name('demandes.create');
+        Route::post('/demandes', [AdminDemandeController::class, 'store'])->name('demandes.store');
+        Route::get('/demandes/{demande}', [AdminDemandeController::class, 'show'])->name('demandes.show');
+        Route::get('/demandes/{demande}/edit', [AdminDemandeController::class, 'edit'])->name('demandes.edit');
+        Route::put('/demandes/{demande}', [AdminDemandeController::class, 'update'])->name('demandes.update');
+        Route::delete('/demandes/{demande}', [AdminDemandeController::class, 'destroy'])->name('demandes.destroy');
+
+        Route::get('/offers', [AdminOfferController::class, 'index'])->name('offers.index');
+        Route::get('/offers/{offre}', [AdminOfferController::class, 'show'])->name('offers.show');
+        Route::delete('/offers/{offre}', [AdminOfferController::class, 'destroy'])->name('offers.destroy');
+
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+
+        Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
+
+        Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings');
     });
 
     Route::redirect('/demande', '/client/demandes');

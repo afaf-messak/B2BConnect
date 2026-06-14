@@ -1,8 +1,9 @@
 <?php
 
 return [
-    'app_name' => 'SupplyLink',
-    'portal' => 'بوابة اللوجستيات',
+    'app_name' => 'B2BConnect',
+    'tagline' => 'تواصل. تعاون. انجح.',
+    'portal' => 'منصة B2B',
     'search' => 'بحث...',
     'search_placeholder' => 'ابحث عن الطلبات أو الموردين أو المستندات...',
     'save' => 'حفظ',

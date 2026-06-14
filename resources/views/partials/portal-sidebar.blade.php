@@ -1,12 +1,6 @@
 <aside class="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:flex lg:w-[280px] lg:flex-col lg:border-r lg:border-outline-variant/40 lg:bg-surface lg:px-5 lg:py-8">
     <div class="flex items-center gap-3 px-3">
-        <div class="grid h-10 w-10 place-items-center rounded-lg bg-primary text-on-primary">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_shipping</span>
-        </div>
-        <div>
-            <h1 class="text-lg font-bold text-primary">SupplyLink</h1>
-            <p class="text-[10px] font-semibold uppercase tracking-widest text-outline">Logistics Portal</p>
-        </div>
+        <x-b2b-logo size="sm" href="/" />
     </div>
 
     <nav class="mt-12 flex-1 space-y-2">

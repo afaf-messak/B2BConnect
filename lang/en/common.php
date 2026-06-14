@@ -1,8 +1,9 @@
 <?php
 
 return [
-    'app_name' => 'SupplyLink',
-    'portal' => 'Logistics Portal',
+    'app_name' => 'B2BConnect',
+    'tagline' => 'Connect. Collaborate. Succeed.',
+    'portal' => 'B2B Platform',
     'search' => 'Search...',
     'search_placeholder' => 'Search orders, suppliers, or documents...',
     'save' => 'Save',
@@ -52,6 +53,11 @@ return [
     'pending' => 'Pending',
     'approved' => 'Approved',
     'rejected' => 'Rejected',
+    'completed' => 'Completed',
+    'enabled' => 'Enabled',
+    'disabled' => 'Disabled',
+    'inactive' => 'Inactive',
+    'suspended' => 'Suspended',
     'items' => 'items',
     'date' => 'Date',
     'confirm' => 'Confirm',

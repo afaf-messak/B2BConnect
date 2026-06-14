@@ -42,6 +42,14 @@ class EnsureOnboardingComplete
             return redirect()->route('auth.pending-approval');
         }
 
+        if ($user->isSuspended()) {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('error', __('admin.user_suspended'));
+        }
+
         return $next($request);
     }
 }

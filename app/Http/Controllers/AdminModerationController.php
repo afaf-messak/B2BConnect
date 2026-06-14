@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DocumentVerification;
+use App\Models\User;
 use App\Support\Navigation;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,12 +11,23 @@ use Illuminate\View\View;
 
 class AdminModerationController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $documents = DocumentVerification::query()
-            ->with('user')
-            ->latest()
-            ->paginate(15);
+        $query = DocumentVerification::query()->with('user')->latest();
+
+        if ($status = $request->string('status')->toString()) {
+            $query->where('status', $status);
+        }
+
+        if ($search = $request->string('q')->trim()->toString()) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('company_name', 'like', "%{$search}%")
+                    ->orWhere('ice', 'like', "%{$search}%");
+            });
+        }
+
+        $documents = $query->paginate(15)->withQueryString();
 
         $stats = [
             ['label' => __('common.pending'), 'value' => DocumentVerification::where('status', 'pending')->count()],
@@ -25,11 +37,26 @@ class AdminModerationController extends Controller
 
         return view('admin.moderation', [
             'documents' => $documents,
+            'filters' => $request->only(['q', 'status']),
             'stats' => $stats,
             'navItems' => Navigation::adminItems('moderation'),
             'navActive' => 'moderation',
             'pageTitle' => __('nav.admin.suppliers_validation'),
             'pageSubtitle' => __('roles.moderation_subtitle'),
+        ]);
+    }
+
+    public function show(DocumentVerification $document): View
+    {
+        $document->load('user.supplierProfile');
+
+        return view('admin.moderation-show', [
+            'document' => $document,
+            'supplier' => $document->user,
+            'navItems' => Navigation::adminItems('moderation'),
+            'navActive' => 'moderation',
+            'pageTitle' => $document->user?->company_name ?: $document->user?->name,
+            'pageSubtitle' => __('admin.supplier_review'),
         ]);
     }
 
@@ -44,7 +71,7 @@ class AdminModerationController extends Controller
 
         if ($document->user && $document->user->isSupplier()) {
             $document->user->update([
-                'account_status' => \App\Models\User::STATUS_ACTIVE,
+                'account_status' => User::STATUS_ACTIVE,
             ]);
         }
 
@@ -63,6 +90,12 @@ class AdminModerationController extends Controller
             'verified_at' => null,
             'rejection_reason' => $validated['rejection_reason'],
         ]);
+
+        if ($document->user && $document->user->isSupplier()) {
+            $document->user->update([
+                'account_status' => User::STATUS_REJECTED,
+            ]);
+        }
 
         return back()->with('success', __('roles.supplier_rejected'));
     }

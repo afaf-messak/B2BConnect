@@ -50,7 +50,7 @@ class SupplierDashboardController extends Controller
             ->get()
             ->map(fn (Demande $demande) => [
                 'title' => $demande->title,
-                'company' => $demande->user?->company_name ?: ($demande->user?->name ?? 'Client SupplyLink'),
+                'company' => $demande->user?->company_name ?: ($demande->user?->name ?? 'Client B2BConnect'),
                 'amount' => $demande->budget ? '$' . number_format((float) $demande->budget, 2) : 'A negocier',
                 'time' => $demande->created_at?->diffForHumans() ?? 'Recemment',
                 'icon' => $this->iconForCategory($demande->category),

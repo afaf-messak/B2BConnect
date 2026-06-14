@@ -146,13 +146,14 @@
     }
 
     html.dark .saas-btn-social {
-        background-color: #1a2d42;
-        border-color: rgba(117, 118, 132, 0.45);
-        color: #eaf1ff;
+        background-color: #272830;
+        color: #f4f4f5;
+        border-color: rgba(161, 161, 170, 0.28);
     }
 
     html.dark .saas-btn-social:hover {
-        background-color: #2a3a50;
+        background-color: #363845;
+        border-color: rgba(129, 140, 248, 0.35);
     }
 
     /* ── Forms ───────────────────────────────────────────────── */
@@ -573,7 +574,7 @@
     }
 
     html.dark .glass-card {
-        background: rgba(21, 37, 54, 0.88);
-        border-color: rgba(117, 118, 132, 0.35);
+        background: rgba(39, 39, 50, 0.82) !important;
+        border-color: rgba(161, 161, 170, 0.22) !important;
     }
 </style>

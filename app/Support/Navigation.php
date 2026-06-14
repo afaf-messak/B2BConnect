@@ -27,7 +27,7 @@ class Navigation
             ['key' => 'offers', 'label' => __('nav.sent_offers'), 'icon' => 'local_offer', 'href' => route('supplier.offers')],
             ['key' => 'messages', 'label' => __('nav.messages'), 'icon' => 'mail', 'href' => route('messages.index'), 'badge' => $unread],
             ['key' => 'orders', 'label' => __('nav.orders'), 'icon' => 'shopping_cart', 'href' => route('supplier.orders.index')],
-            ['key' => 'profile', 'label' => __('nav.account'), 'icon' => 'person', 'href' => route('profile.edit')],
+            ['key' => 'settings', 'label' => __('nav.settings'), 'icon' => 'settings', 'href' => route('supplier.settings')],
         ];
 
         return self::markActive($items, $active);
@@ -46,7 +46,7 @@ class Navigation
             ['key' => 'products', 'label' => __('nav.products'), 'icon' => 'shopping_bag', 'href' => route('products.catalog')],
             ['key' => 'messages', 'label' => __('nav.messages'), 'icon' => 'mail', 'href' => route('messages.index'), 'badge' => $unread],
             ['key' => 'orders', 'label' => __('nav.orders'), 'icon' => 'shopping_cart', 'href' => route('client.orders.index')],
-            ['key' => 'profile', 'label' => __('nav.account'), 'icon' => 'person', 'href' => route('profile.edit')],
+            ['key' => 'settings', 'label' => __('nav.settings'), 'icon' => 'settings', 'href' => route('client.settings')],
         ];
 
         return self::markActive($items, $active);
@@ -56,13 +56,14 @@ class Navigation
     {
         $items = [
             ['key' => 'dashboard', 'label' => __('nav.admin.dashboard'), 'icon' => 'dashboard', 'href' => route('admin.dashboard')],
-            ['key' => 'users', 'label' => __('nav.admin.users'), 'icon' => 'group', 'href' => route('admin.users')],
+            ['key' => 'users', 'label' => __('nav.admin.users'), 'icon' => 'group', 'href' => route('admin.users.index')],
             ['key' => 'moderation', 'label' => __('nav.admin.suppliers_validation'), 'icon' => 'verified_user', 'href' => route('admin.moderation')],
-            ['key' => 'demandes', 'label' => __('nav.admin.demandes'), 'icon' => 'assignment', 'href' => route('admin.demandes')],
-            ['key' => 'offers', 'label' => __('nav.admin.offers'), 'icon' => 'request_quote', 'href' => route('admin.offers')],
-            ['key' => 'orders', 'label' => __('nav.admin.orders'), 'icon' => 'shopping_cart', 'href' => route('admin.orders.index')],
             ['key' => 'products', 'label' => __('nav.admin.products'), 'icon' => 'inventory_2', 'href' => route('admin.products.index')],
-            ['key' => 'statistics', 'label' => __('nav.admin.statistics'), 'icon' => 'analytics', 'href' => route('admin.statistics')],
+            ['key' => 'demandes', 'label' => __('nav.admin.demandes'), 'icon' => 'assignment', 'href' => route('admin.demandes.index')],
+            ['key' => 'offers', 'label' => __('nav.admin.offers'), 'icon' => 'request_quote', 'href' => route('admin.offers.index')],
+            ['key' => 'orders', 'label' => __('nav.admin.orders'), 'icon' => 'shopping_cart', 'href' => route('admin.orders.index')],
+            ['key' => 'messages', 'label' => __('nav.admin.messages'), 'icon' => 'mail', 'href' => route('admin.messages.index')],
+            ['key' => 'statistics', 'label' => __('nav.admin.analytics'), 'icon' => 'analytics', 'href' => route('admin.statistics')],
             ['key' => 'settings', 'label' => __('nav.admin.settings'), 'icon' => 'settings', 'href' => route('admin.settings')],
         ];
 

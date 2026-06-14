@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@b2bconnect.test',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
             'role' => User::ROLE_ADMIN,
             'company_name' => 'B2BConnect Admin',
             'account_status' => User::STATUS_ACTIVE,
