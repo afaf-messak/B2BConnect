@@ -2,6 +2,9 @@
 
 return [
     'title' => 'Messages',
+    'from' => 'De',
+    'to' => 'A',
+    'message' => 'Message',
     'subtitle_client' => 'Communiquez directement avec vos fournisseurs',
     'subtitle_supplier' => 'Communiquez directement avec vos clients',
     'conversations' => 'Conversations',
@@ -12,6 +15,8 @@ return [
     'placeholder' => 'Écrivez votre message...',
     'sent' => 'Message envoyé.',
     'unread' => ':count non lu(s)',
+    'read' => 'Lu',
+    'unread_status' => 'Non lu',
     'product_context' => 'Demande d\'information sur',
     'find_supplier' => 'Trouver un fournisseur',
 ];

@@ -2,6 +2,9 @@
 
 return [
     'title' => 'الرسائل',
+    'from' => 'من',
+    'to' => 'إلى',
+    'message' => 'الرسالة',
     'subtitle_client' => 'تواصل مباشرة مع مورديك',
     'subtitle_supplier' => 'تواصل مباشرة مع عملائك',
     'conversations' => 'المحادثات',
@@ -12,6 +15,8 @@ return [
     'placeholder' => 'اكتب رسالتك...',
     'sent' => 'تم إرسال الرسالة.',
     'unread' => ':count غير مقروء',
+    'read' => 'مقروء',
+    'unread_status' => 'غير مقروء',
     'product_context' => 'طلب معلومات حول',
     'find_supplier' => 'البحث عن مورد',
 ];

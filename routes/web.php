@@ -15,7 +15,6 @@ use App\Http\Controllers\ClientDemandeViewController;
 use App\Http\Controllers\ClientFavoriteController;
 use App\Http\Controllers\ClientOfferController;
 use App\Http\Controllers\ClientOrderController;
-use App\Http\Controllers\ClientProductOrderController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemandeController;
@@ -49,7 +48,7 @@ Route::prefix('marketplace')->name('marketplace.')->group(function () {
     Route::get('/suppliers/{profile:slug}', [PublicMarketplaceController::class, 'supplierShow'])->name('suppliers.show');
 });
 
-Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
+Route::match(['get', 'post'], '/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -69,6 +68,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [ClientDashboardController::class, 'index'])->name('dashboard');
         Route::get('/settings', [PortalSettingsController::class, 'index'])->name('settings');
         Route::get('/orders', [ClientOrderController::class, 'index'])->name('orders.index');
+        Route::post('/orders', [ClientOrderController::class, 'store'])->name('orders.store');
+        Route::patch('/orders/{order}', [ClientOrderController::class, 'update'])->name('orders.update');
+        Route::delete('/orders/{order}', [ClientOrderController::class, 'destroy'])->name('orders.destroy');
 
         Route::prefix('demandes')->name('demandes.')->group(function () {
             Route::get('/', [ClientDemandeViewController::class, 'index'])->name('index');
@@ -89,8 +91,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/favorites/{supplier}', [ClientFavoriteController::class, 'store'])->name('favorites.store');
         Route::delete('/favorites/{supplier}', [ClientFavoriteController::class, 'destroy'])->name('favorites.destroy');
 
-        Route::post('/products/{product}/order', [ClientProductOrderController::class, 'store'])->name('products.order');
-
         Route::prefix('offres')->name('offers.')->group(function () {
             Route::get('/', [ClientOfferController::class, 'index'])->name('index');
             Route::post('/{offre}/accept', [ClientOfferController::class, 'accept'])->name('accept');
@@ -105,6 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/demandes/{demande}/quote', [SupplierQuotationController::class, 'create'])->name('demandes.quote');
         Route::post('/demandes/{demande}/quote', [SupplierQuotationController::class, 'store'])->name('demandes.quote.store');
         Route::get('/orders', [SupplierOrderController::class, 'index'])->name('orders.index');
+        Route::patch('/orders/{order}', [SupplierOrderController::class, 'update'])->name('orders.update');
         Route::get('/offers', [SupplierOffersController::class, 'index'])->name('offers');
         Route::get('/offers/export', [SupplierOffersController::class, 'export'])->name('offers.export');
         Route::get('/profile', [SupplierProfileController::class, 'show'])->name('profile');

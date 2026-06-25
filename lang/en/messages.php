@@ -2,6 +2,9 @@
 
 return [
     'title' => 'Messages',
+    'from' => 'From',
+    'to' => 'To',
+    'message' => 'Message',
     'subtitle_client' => 'Communicate directly with your suppliers',
     'subtitle_supplier' => 'Communicate directly with your clients',
     'conversations' => 'Conversations',
@@ -13,6 +16,8 @@ return [
     'sent' => 'Message sent.',
     'body_required' => 'Enter a message or attach a file.',
     'unread' => ':count unread',
+    'read' => 'Read',
+    'unread_status' => 'Unread',
     'product_context' => 'Information request about',
     'find_supplier' => 'Find a supplier',
 ];

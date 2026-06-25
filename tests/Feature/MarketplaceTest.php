@@ -121,7 +121,10 @@ class MarketplaceTest extends TestCase
         ]);
 
         $this->actingAs($client)
-            ->post(route('client.products.order', $product), ['quantity' => 2])
+            ->post(route('client.orders.store'), [
+                'product_id' => $product->id,
+                'quantity' => 2,
+            ])
             ->assertRedirect(route('client.orders.index'));
 
         $this->assertDatabaseHas('orders', [
@@ -133,5 +136,124 @@ class MarketplaceTest extends TestCase
         ]);
 
         $this->assertEquals(8, $product->fresh()->stock);
+    }
+
+    public function test_client_product_page_shows_order_quantity_form(): void
+    {
+        $client = User::factory()->create(['role' => User::ROLE_CLIENT]);
+        $supplier = User::factory()->create(['role' => User::ROLE_SUPPLIER]);
+        $product = Product::factory()->create([
+            'fournisseur_id' => $supplier->id,
+            'stock' => 10,
+            'is_active' => true,
+            'moq' => 3,
+        ]);
+
+        $this->actingAs($client)
+            ->get(route('products.show', $product))
+            ->assertOk()
+            ->assertSee(route('client.orders.store'), false)
+            ->assertSee('name="product_id"', false)
+            ->assertSee('value="'.$product->id.'"', false)
+            ->assertSee('name="quantity"', false)
+            ->assertSee('min="1"', false);
+    }
+
+    public function test_client_can_order_less_than_product_moq(): void
+    {
+        $client = User::factory()->create(['role' => User::ROLE_CLIENT]);
+        $supplier = User::factory()->create(['role' => User::ROLE_SUPPLIER]);
+        $product = Product::factory()->create([
+            'fournisseur_id' => $supplier->id,
+            'price' => 100,
+            'stock' => 10,
+            'is_active' => true,
+            'moq' => 100,
+        ]);
+
+        $this->actingAs($client)
+            ->post(route('client.orders.store'), [
+                'product_id' => $product->id,
+                'quantity' => 2,
+            ])
+            ->assertRedirect(route('client.orders.index'));
+
+        $this->assertDatabaseHas('orders', [
+            'user_id' => $client->id,
+            'product_id' => $product->id,
+            'quantity' => 2,
+        ]);
+    }
+
+    public function test_client_can_update_own_order_quantity(): void
+    {
+        $client = User::factory()->create(['role' => User::ROLE_CLIENT]);
+        $supplier = User::factory()->create(['role' => User::ROLE_SUPPLIER]);
+        $product = Product::factory()->create([
+            'fournisseur_id' => $supplier->id,
+            'price' => 100,
+            'stock' => 8,
+            'is_active' => true,
+            'moq' => 100,
+        ]);
+        $order = Order::factory()->create([
+            'user_id' => $client->id,
+            'supplier_id' => $supplier->id,
+            'product_id' => $product->id,
+            'quantity' => 2,
+            'unit_price' => 100,
+            'total_price' => 200,
+            'status' => 'confirmed',
+        ]);
+
+        $this->actingAs($client)
+            ->patch(route('client.orders.update', $order), ['quantity' => 1])
+            ->assertRedirect();
+
+        $this->assertSame(1, $order->fresh()->quantity);
+        $this->assertEquals(100, $order->fresh()->total_price);
+        $this->assertEquals(9, $product->fresh()->stock);
+    }
+
+    public function test_client_can_delete_own_order_before_shipping(): void
+    {
+        $client = User::factory()->create(['role' => User::ROLE_CLIENT]);
+        $supplier = User::factory()->create(['role' => User::ROLE_SUPPLIER]);
+        $product = Product::factory()->create([
+            'fournisseur_id' => $supplier->id,
+            'stock' => 8,
+            'is_active' => true,
+        ]);
+        $order = Order::factory()->create([
+            'user_id' => $client->id,
+            'supplier_id' => $supplier->id,
+            'product_id' => $product->id,
+            'quantity' => 2,
+            'status' => 'confirmed',
+        ]);
+
+        $this->actingAs($client)
+            ->delete(route('client.orders.destroy', $order))
+            ->assertRedirect();
+
+        $this->assertDatabaseMissing('orders', ['id' => $order->id]);
+        $this->assertEquals(10, $product->fresh()->stock);
+    }
+
+    public function test_supplier_can_update_own_order_status(): void
+    {
+        $client = User::factory()->create(['role' => User::ROLE_CLIENT]);
+        $supplier = User::factory()->create(['role' => User::ROLE_SUPPLIER]);
+        $order = Order::factory()->create([
+            'user_id' => $client->id,
+            'supplier_id' => $supplier->id,
+            'status' => 'confirmed',
+        ]);
+
+        $this->actingAs($supplier)
+            ->patch(route('supplier.orders.update', $order), ['status' => 'shipped'])
+            ->assertRedirect();
+
+        $this->assertSame('shipped', $order->fresh()->status);
     }
 }

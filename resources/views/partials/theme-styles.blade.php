@@ -84,15 +84,19 @@
     }
 
     html.dark .saas-input,
+    html.dark .saas-select,
+    html.dark .saas-textarea,
     html.dark input:not([type="checkbox"]):not([type="radio"]),
     html.dark select,
     html.dark textarea {
         background-color: #272830 !important;
         color: #f4f4f5 !important;
         border-color: rgba(161, 161, 170, 0.28) !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16) !important;
     }
 
     html.dark .saas-input::placeholder,
+    html.dark .saas-textarea::placeholder,
     html.dark input::placeholder,
     html.dark textarea::placeholder {
         color: #71717a !important;

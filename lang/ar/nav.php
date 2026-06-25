@@ -8,7 +8,7 @@ return [
     'offers_received' => 'العروض المستلمة',
     'sent_offers' => 'العروض المرسلة',
     'products' => 'المنتجات',
-    'catalogue' => 'الفهرس',
+    'catalogue' => 'الكتالوج',
     'suppliers' => 'الموردون',
     'marketplace' => 'السوق',
     'favorites' => 'المفضلة',

@@ -16,10 +16,15 @@ class ProductCatalogController extends Controller
             ->active()
             ->when($request->filled('q'), function ($query) use ($request) {
                 $search = $request->string('q')->toString();
-                $query->where(function ($query) use ($search) {
+                $localizedNames = Product::matchingLocalizedProductNames($search);
+                $localizedCategories = Product::matchingLocalizedCategories($search);
+
+                $query->where(function ($query) use ($search, $localizedNames, $localizedCategories) {
                     $query->where('name', 'like', '%' . $search . '%')
                         ->orWhere('description', 'like', '%' . $search . '%')
-                        ->orWhereHas('fournisseur', fn ($q) => $q->where('company_name', 'like', '%' . $search . '%'));
+                        ->orWhereHas('fournisseur', fn ($q) => $q->where('company_name', 'like', '%' . $search . '%'))
+                        ->when($localizedNames !== [], fn ($q) => $q->orWhereIn('name', $localizedNames))
+                        ->when($localizedCategories !== [], fn ($q) => $q->orWhereIn('category', $localizedCategories));
                 });
             })
             ->when($request->filled('min_price'), fn ($q) => $q->where('price', '>=', (float) $request->input('min_price')))
@@ -40,6 +45,14 @@ class ProductCatalogController extends Controller
             ->sortBy('company_name')
             ->values();
 
+        $categories = Product::query()
+            ->whereNotNull('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category')
+            ->filter()
+            ->values();
+
         $user = $request->user();
         $navItems = $user
             ? ($user->role === 'supplier'
@@ -50,6 +63,7 @@ class ProductCatalogController extends Controller
         return view('products.catalog', [
             'products' => $products,
             'suppliers' => $suppliers,
+            'categories' => $categories,
             'filters' => $request->only(['q', 'min_price', 'max_price', 'supplier', 'in_stock', 'category']),
             'navItems' => $navItems,
             'portalRole' => $user?->role,

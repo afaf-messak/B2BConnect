@@ -26,6 +26,14 @@ class LocaleSwitchTest extends TestCase
             ->assertSee('Welcome back', false);
     }
 
+    public function test_locale_can_be_switched_via_post(): void
+    {
+        $this->post('/locale/ar')
+            ->assertRedirect();
+
+        $this->assertSame('ar', session('locale'));
+    }
+
     public function test_invalid_locale_returns_not_found(): void
     {
         $this->get('/locale/xx')->assertNotFound();

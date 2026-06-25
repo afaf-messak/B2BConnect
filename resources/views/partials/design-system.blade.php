@@ -176,38 +176,44 @@
     .saas-input,
     .saas-select,
     .saas-textarea {
+        appearance: none;
         display: block;
         width: 100%;
-        min-height: 2.75rem;
-        padding: 0.625rem 0.875rem;
-        border-radius: 0.75rem;
-        border: 1px solid rgba(196, 197, 213, 0.75);
+        min-height: 3rem;
+        padding: 0.75rem 0.95rem;
+        border-radius: 0.875rem;
+        border: 1px solid rgba(117, 118, 132, 0.28);
         background-color: #ffffff;
+        background-clip: padding-box;
         color: #0b1c30;
-        font-size: 0.875rem;
+        font-size: 0.9375rem;
+        font-weight: 500;
         line-height: 1.5;
-        transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+        transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease;
     }
 
     .saas-textarea {
-        min-height: 5rem;
+        min-height: 6rem;
         resize: vertical;
     }
 
     textarea.saas-input {
-        min-height: 5rem;
+        min-height: 6rem;
         resize: vertical;
     }
 
     .saas-input::placeholder,
     .saas-textarea::placeholder {
-        color: #757684;
+        color: rgba(68, 70, 83, 0.62);
+        font-weight: 400;
     }
 
     .saas-input:hover,
     .saas-select:hover,
     .saas-textarea:hover {
-        border-color: rgba(0, 40, 142, 0.35);
+        border-color: rgba(0, 40, 142, 0.42);
+        background-color: #fbfdff;
     }
 
     .saas-input:focus,
@@ -215,7 +221,8 @@
     .saas-textarea:focus {
         outline: none;
         border-color: #00288e;
-        box-shadow: 0 0 0 3px rgba(100, 168, 254, 0.35);
+        background-color: #ffffff;
+        box-shadow: 0 0 0 4px rgba(100, 168, 254, 0.24), 0 8px 20px rgba(15, 23, 42, 0.06);
     }
 
     .saas-input:disabled,
@@ -224,11 +231,12 @@
         opacity: 0.6;
         cursor: not-allowed;
         background-color: #eff4ff;
+        box-shadow: none;
     }
 
     .saas-input-error {
         border-color: #ba1a1a !important;
-        box-shadow: 0 0 0 3px rgba(186, 26, 26, 0.15) !important;
+        box-shadow: 0 0 0 4px rgba(186, 26, 26, 0.13) !important;
     }
 
     .saas-field-error {
@@ -263,16 +271,16 @@
         appearance: none;
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23444653'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
-        background-position: right 0.75rem center;
+        background-position: right 0.95rem center;
         background-size: 1rem;
-        padding-right: 2.5rem;
+        padding-right: 2.75rem;
     }
 
     html[dir="rtl"] select.saas-input,
     html[dir="rtl"] select.saas-select {
-        background-position: left 0.75rem center;
-        padding-right: 0.875rem;
-        padding-left: 2.5rem;
+        background-position: left 0.95rem center;
+        padding-right: 0.95rem;
+        padding-left: 2.75rem;
     }
 
     input[type="file"].saas-input {

@@ -13,9 +13,9 @@
             <table class="saas-table">
                 <thead>
                     <tr>
-                        <th>{{ __('messages.from') ?? 'From' }}</th>
-                        <th>{{ __('messages.to') ?? 'To' }}</th>
-                        <th>{{ __('messages.message') ?? 'Message' }}</th>
+                        <th>{{ __('messages.from') }}</th>
+                        <th>{{ __('messages.to') }}</th>
+                        <th>{{ __('messages.message') }}</th>
                         <th>{{ __('common.status') }}</th>
                         <th>{{ __('common.date') }}</th>
                     </tr>
@@ -32,7 +32,11 @@
                                 <p class="text-xs text-on-surface-variant">{{ $message->receiver?->email }}</p>
                             </td>
                             <td class="max-w-md truncate text-on-surface-variant">{{ $message->body }}</td>
-                            <td><span class="saas-badge {{ $message->read_at ? 'saas-badge-success' : 'saas-badge-warning' }}">{{ $message->read_at ? __('messages.read') ?? 'Read' : __('messages.unread') ?? 'Unread' }}</span></td>
+                            <td>
+                                <span class="saas-badge {{ $message->read_at ? 'saas-badge-success' : 'saas-badge-warning' }}">
+                                    {{ $message->read_at ? __('messages.read') : __('messages.unread_status') }}
+                                </span>
+                            </td>
                             <td>{{ $message->created_at?->format('d/m/Y H:i') }}</td>
                         </tr>
                     @empty
