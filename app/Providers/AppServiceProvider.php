@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\View\Composers\SaasComposer;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('layouts.saas', SaasComposer::class);
+        View::composer('layouts.saas-guest', SaasComposer::class);
     }
 }

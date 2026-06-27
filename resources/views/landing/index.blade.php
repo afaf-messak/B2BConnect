@@ -1,0 +1,15 @@
+@extends('layouts.landing')
+
+@section('content')
+    @include('landing.hero')
+    @include('landing.trusted')
+    @include('landing.why-choose')
+    @include('landing.how-it-works')
+    @include('landing.features')
+    @include('landing.marketplace')
+    @include('landing.messaging')
+    @include('landing.stats')
+    @include('landing.testimonials')
+    @include('landing.faq')
+    @include('landing.cta')
+@endsection
