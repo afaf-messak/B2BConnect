@@ -14,21 +14,21 @@
     </div>
 
     <form method="GET" class="glass-card mb-8 grid gap-4 p-6 md:grid-cols-2 lg:grid-cols-6">
-        <input type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="{{ __('marketplace.search_placeholder') }}" class="saas-input lg:col-span-2">
-        <select name="industry" class="saas-input">
+        <input type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="{{ __('marketplace.search_placeholder') }}" class="saas-input h-14 rounded-[28px] border border-outline-variant/20 bg-surface-container-low px-5 text-sm placeholder:text-on-surface-variant focus:border-primary/40 focus:ring-2 focus:ring-primary/20 lg:col-span-2">
+        <select name="industry" class="saas-input h-14 rounded-[28px] border border-outline-variant/20 bg-surface-container-low px-5 text-sm focus:border-primary/40 focus:ring-2 focus:ring-primary/20">
             <option value="">{{ __('marketplace.industry') }}</option>
             @foreach ($industries as $industry)
                 <option value="{{ $industry }}" @selected(($filters['industry'] ?? '') === $industry)>{{ $industry }}</option>
             @endforeach
         </select>
-        <input type="text" name="city" value="{{ $filters['city'] ?? '' }}" placeholder="{{ __('marketplace.city') }}" class="saas-input">
-        <select name="min_rating" class="saas-input">
+        <input type="text" name="city" value="{{ $filters['city'] ?? '' }}" placeholder="{{ __('marketplace.city') }}" class="saas-input h-14 rounded-[28px] border border-outline-variant/20 bg-surface-container-low px-5 text-sm placeholder:text-on-surface-variant focus:border-primary/40 focus:ring-2 focus:ring-primary/20">
+        <select name="min_rating" class="saas-input h-14 rounded-[28px] border border-outline-variant/20 bg-surface-container-low px-5 text-sm focus:border-primary/40 focus:ring-2 focus:ring-primary/20">
             <option value="">{{ __('marketplace.min_rating') }}</option>
             @foreach ([4, 3, 2] as $rating)
                 <option value="{{ $rating }}" @selected(($filters['min_rating'] ?? '') == $rating)">{{ $rating }}+</option>
             @endforeach
         </select>
-        <select name="sort" class="saas-input">
+        <select name="sort" class="saas-input h-14 rounded-[28px] border border-outline-variant/20 bg-surface-container-low px-5 text-sm focus:border-primary/40 focus:ring-2 focus:ring-primary/20">
             <option value="rating" @selected(($filters['sort'] ?? 'rating') === 'rating')>{{ __('marketplace.sort_rating') }}</option>
             <option value="name" @selected(($filters['sort'] ?? '') === 'name')>{{ __('marketplace.sort_name') }}</option>
             <option value="products" @selected(($filters['sort'] ?? '') === 'products')>{{ __('marketplace.sort_products') }}</option>

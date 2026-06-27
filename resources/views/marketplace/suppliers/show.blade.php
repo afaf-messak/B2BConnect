@@ -42,12 +42,16 @@
                         @if ($isFavorite)
                             <form method="POST" action="{{ route('client.favorites.destroy', $supplier) }}">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="saas-btn-secondary">{{ __('marketplace.unfavorite') }}</button>
+                                <button type="submit" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-outline-variant/20 bg-surface-container text-error shadow-sm transition hover:border-primary/40" aria-label="{{ __('marketplace.unfavorite') }}">
+                                    <span class="material-symbols-outlined text-lg">favorite</span>
+                                </button>
                             </form>
                         @else
                             <form method="POST" action="{{ route('client.favorites.store', $supplier) }}">
                                 @csrf
-                                <button type="submit" class="saas-btn-secondary">{{ __('marketplace.favorite') }}</button>
+                                <button type="submit" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-outline-variant/20 bg-surface-container text-primary shadow-sm transition hover:border-primary/40" aria-label="{{ __('marketplace.favorite') }}">
+                                    <span class="material-symbols-outlined text-lg">favorite</span>
+                                </button>
                             </form>
                         @endif
                         <a href="{{ route('messages.show', $supplier) }}" class="saas-btn-primary">{{ __('marketplace.contact') }}</a>

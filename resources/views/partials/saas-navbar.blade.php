@@ -1,7 +1,7 @@
 <header class="saas-navbar sticky top-0 z-40 flex h-16 items-center gap-3 border-b border-outline-variant/20 bg-surface/90 px-4 backdrop-blur-md sm:px-6 lg:px-8">
     @if ($showSidebar ?? true)
         <button type="button" id="saas-sidebar-toggle" class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-container-low text-on-surface transition hover:bg-surface-container-high" aria-label="{{ __('common.sidebar.collapse') }}">
-            <span class="material-symbols-outlined">menu</span>
+            <span id="saas-sidebar-toggle-icon" class="material-symbols-outlined">chevron_left</span>
         </button>
     @endif
 

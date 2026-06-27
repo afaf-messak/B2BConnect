@@ -19,15 +19,18 @@
         </div>
     </div>
 
-    <form method="GET" class="mb-6 flex flex-wrap gap-3">
-        <input type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="{{ __('common.search') }}" class="saas-input min-w-[200px] flex-1">
-        <select name="status" class="saas-input w-auto">
+    <form method="GET" class="mb-6 flex flex-wrap items-center gap-3">
+        <div class="relative flex-1 min-w-[240px]">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+            <input type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="{{ __('common.search') }}" class="saas-input h-14 w-full rounded-full border border-outline-variant/30 bg-surface-container-low pl-12 pr-5 text-sm text-on-surface placeholder:text-on-surface-variant focus:border-primary/40 focus:ring-2 focus:ring-primary/20">
+        </div>
+        <select name="status" class="saas-input h-14 rounded-full border border-outline-variant/30 bg-surface-container-low px-5 text-sm focus:border-primary/40 focus:ring-2 focus:ring-primary/20 w-auto">
             <option value="">{{ __('common.status') }}</option>
             @foreach (['pending', 'accepted', 'rejected'] as $status)
                 <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ ucfirst($status) }}</option>
             @endforeach
         </select>
-        <button type="submit" class="saas-btn-primary">{{ __('common.filter') }}</button>
+        <button type="submit" class="saas-btn-primary h-14 rounded-full px-7">{{ __('common.filter') }}</button>
     </form>
 
     @forelse ($offers as $offre)

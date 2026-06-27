@@ -19,11 +19,13 @@
                         @if ($profile->tagline)
                             <p class="mt-1 text-sm text-on-surface-variant">{{ $profile->tagline }}</p>
                         @endif
-                        <div class="mt-6 flex gap-2">
+                        <div class="mt-6 flex items-center gap-2">
                             <a href="{{ route('marketplace.suppliers.show', $profile) }}" class="saas-btn-primary flex-1 py-2.5">{{ __('marketplace.view_profile') }}</a>
                             <form method="POST" action="{{ route('client.favorites.destroy', $supplier) }}">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="saas-btn-secondary py-2.5">{{ __('marketplace.unfavorite') }}</button>
+                                <button type="submit" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-outline-variant/20 bg-surface-container text-error shadow-sm transition hover:border-primary/40" aria-label="{{ __('marketplace.unfavorite') }}">
+                                    <span class="material-symbols-outlined text-lg">favorite</span>
+                                </button>
                             </form>
                         </div>
                     </article>
