@@ -7,10 +7,11 @@ return [
     | Third Party Services
     |--------------------------------------------------------------------------
     |
-    | This file is for storing the credentials for third party services such
-    | as Mailgun, Postmark, AWS and more. This file provides the de facto
-    | location for this type of information, allowing packages to have
-    | a conventional file to locate the various service credentials.
+    | OAuth credentials are read from .env. After changing .env, run:
+    |   php artisan config:clear
+    |
+    | Redirect URIs must exactly match what is registered in each provider console.
+    | Defaults use APP_URL + /auth/{provider}/callback
     |
     */
 
@@ -34,5 +35,10 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
 
 ];

@@ -17,6 +17,7 @@ class Message extends Model
         'demande_id',
         'offre_id',
         'body',
+        'attachment_path',
         'read_at',
     ];
 
