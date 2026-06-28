@@ -30,9 +30,9 @@ class EnsureOnboardingComplete
 
         $routeName = $request->route()?->getName();
 
-        if (in_array($routeName, self::EXEMPT_ROUTES, true)) {
-            return $next($request);
-        }
+if ($routeName && in_array($routeName, self::EXEMPT_ROUTES, true)) {
+    return $next($request);
+}
 
         if (! $user->isOnboarded()) {
             return redirect()->route('auth.role-selection');
