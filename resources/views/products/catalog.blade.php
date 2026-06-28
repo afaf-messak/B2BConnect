@@ -73,19 +73,34 @@
     @else
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @foreach ($products as $product)
+                @php
+                    $productSlug = \Illuminate\Support\Str::slug($product->name);
+                    $containImage = in_array($productSlug, [
+                        'hp-laserjet-pro-m404dn',
+                        'carton-double-cannelure-60x40x40-cm',
+                        'palette-europe-epal-1200x800-mm',
+                        'casque-de-securite-3m-securefit',
+                    ], true);
+                @endphp
                 <a href="{{ route('products.show', $product) }}" class="group glass-card overflow-hidden transition hover:-translate-y-1">
-                    <div class="aspect-square bg-surface-container">
+                    <div class="relative aspect-square overflow-hidden {{ $containImage ? 'bg-white' : 'bg-surface-container' }}">
                         @if ($product->imageUrl())
-                            <img src="{{ $product->imageUrl() }}" alt="{{ $product->localizedName() }}" class="h-full w-full object-cover transition group-hover:scale-105">
+                            <img
+                                src="{{ $product->imageUrl() }}"
+                                alt="{{ $product->localizedName() }}"
+                                class="h-full w-full transition group-hover:scale-105 {{ $containImage ? 'object-contain p-4' : 'object-cover' }}"
+                            >
                         @else
                             <div class="flex h-full items-center justify-center text-outline">
                                 <span class="material-symbols-outlined text-5xl">inventory_2</span>
                             </div>
                         @endif
+                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent p-4 pt-12">
+                            <h3 class="max-h-12 overflow-hidden text-base font-bold leading-tight text-white">{{ $product->localizedName() }}</h3>
+                        </div>
                     </div>
                     <div class="p-4">
                         <p class="text-xs font-medium text-secondary">{{ $product->fournisseur?->company_name ?: $product->fournisseur?->name }}</p>
-                        <h3 class="mt-1 font-bold text-on-surface group-hover:text-primary">{{ $product->localizedName() }}</h3>
                         @if ($product->localizedCategory())
                             <p class="mt-1 text-xs font-medium text-on-surface-variant">{{ $product->localizedCategory() }}</p>
                         @endif

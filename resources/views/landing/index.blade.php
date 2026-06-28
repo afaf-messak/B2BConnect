@@ -9,7 +9,6 @@
     @include('landing.marketplace')
     @include('landing.messaging')
     @include('landing.stats')
-    @include('landing.testimonials')
     @include('landing.faq')
     @include('landing.cta')
 @endsection

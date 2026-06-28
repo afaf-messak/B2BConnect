@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ProductImageService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,6 +60,12 @@ class Product extends Model
 
     public function imageUrl(): ?string
     {
+        $curatedImage = ProductImageService::forProductName($this->name);
+
+        if ($curatedImage) {
+            return $curatedImage;
+        }
+
         if (! $this->image) {
             return null;
         }

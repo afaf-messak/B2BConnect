@@ -35,7 +35,7 @@ class ProductSeeder extends Seeder
                 'stock' => 22,
                 'moq' => 1,
                 'unit' => 'piece',
-                'image' => 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=900&q=80',
+                'image' => 'https://compuscience.com.eg/2523-medium_default/hp-laserjet-pro-m404dn.jpg',
             ],
             [
                 'name' => 'Cisco Catalyst 2960X 24 ports',
@@ -55,7 +55,7 @@ class ProductSeeder extends Seeder
                 'stock' => 5200,
                 'moq' => 100,
                 'unit' => 'carton',
-                'image' => 'https://images.unsplash.com/photo-1607166452427-7e4477079cb9?auto=format&fit=crop&w=900&q=80',
+                'image' => 'https://kartonske-kutije.rs/fajlovi/product/60x40x40-cm-kartonske-kutije-troslojne-large-545.jpg',
             ],
             [
                 'name' => 'Film etirable transparent 23 microns',
@@ -65,7 +65,7 @@ class ProductSeeder extends Seeder
                 'stock' => 860,
                 'moq' => 12,
                 'unit' => 'rouleau',
-                'image' => 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80',
+                'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Pallet_wrapper.jpg/250px-Pallet_wrapper.jpg',
             ],
             [
                 'name' => 'Palette Europe EPAL 1200x800 mm',
@@ -75,7 +75,7 @@ class ProductSeeder extends Seeder
                 'stock' => 410,
                 'moq' => 10,
                 'unit' => 'palette',
-                'image' => 'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?auto=format&fit=crop&w=900&q=80',
+                'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/EPAL-Europalette.jpg/250px-EPAL-Europalette.jpg',
             ],
             [
                 'name' => 'Gants nitrile non poudres boite de 100',
@@ -95,7 +95,7 @@ class ProductSeeder extends Seeder
                 'stock' => 310,
                 'moq' => 5,
                 'unit' => 'piece',
-                'image' => 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80',
+                'image' => 'https://upload.wikimedia.org/wikipedia/commons/6/60/V-GardProtectiveCap.png',
             ],
             [
                 'name' => 'Roulement SKF 6205-2RS1',
