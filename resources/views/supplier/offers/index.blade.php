@@ -19,15 +19,22 @@
         <a href="{{ route('supplier.offers.export', request()->query()) }}" class="saas-btn-secondary text-sm">{{ __('common.export') }}</a>
     </div>
 
-    <form method="GET" class="mb-6 flex flex-wrap gap-3">
-        <input type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="{{ __('common.search') }}" class="saas-input min-w-[200px] flex-1">
-        <select name="status" class="saas-input w-auto">
+    <form method="GET" class="mb-6 grid gap-3 rounded-3xl border border-outline-variant/50 bg-surface p-4 shadow-sm sm:grid-cols-[1.7fr_auto_auto]">
+        <label class="sr-only" for="offers-search">{{ __('common.search') }}</label>
+        <div class="relative w-full">
+            <span class="material-symbols-outlined pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[20px] text-outline">search</span>
+            <input id="offers-search" type="search" name="q" value="{{ $filters['q'] ?? '' }}" placeholder="{{ __('common.search') }}" class="saas-input h-14 rounded-2xl pl-12 pr-4 w-full" />
+        </div>
+
+        <label class="sr-only" for="offers-status">{{ __('common.status') }}</label>
+        <select id="offers-status" name="status" class="saas-input h-14 rounded-2xl w-full max-w-[220px]">
             <option value="">{{ __('common.status') }}</option>
             @foreach (['pending', 'accepted', 'rejected'] as $status)
                 <option value="{{ $status }}" @selected(($filters['status'] ?? '') === $status)>{{ ucfirst($status) }}</option>
             @endforeach
         </select>
-        <button type="submit" class="saas-btn-primary">{{ __('common.filter') }}</button>
+
+        <button type="submit" class="saas-btn-primary h-14 rounded-2xl px-6 text-sm font-semibold">{{ __('common.filter') }}</button>
     </form>
 
     <section class="overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface-container-lowest shadow-card">
