@@ -5,15 +5,32 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class ProductSeeder extends Seeder
 {
     public function run(): void
     {
-        $suppliers = User::query()->where('role', 'supplier')->get();
+        $demoSupplier = User::query()->updateOrCreate(['email' => 'supplier@b2bconnect.test'], [
+            'name' => 'Supplier Demo',
+            'password' => Hash::make('password'),
+            'role' => User::ROLE_SUPPLIER,
+            'company_name' => 'B2BConnect Supplier',
+            'ice' => '123456789012345',
+            'account_status' => User::STATUS_ACTIVE,
+            'onboarding_completed' => true,
+            'email_verified_at' => now(),
+        ]);
+
+        $suppliers = User::query()
+            ->where('role', User::ROLE_SUPPLIER)
+            ->whereKeyNot($demoSupplier->id)
+            ->get()
+            ->prepend($demoSupplier)
+            ->values();
 
         if ($suppliers->isEmpty()) {
-            $suppliers = User::factory(3)->create(['role' => 'supplier']);
+            $suppliers = User::factory(3)->create(['role' => User::ROLE_SUPPLIER]);
         }
 
         $catalogue = [
@@ -179,11 +196,13 @@ class ProductSeeder extends Seeder
             ],
         ];
 
-        Product::query()->delete();
-
         foreach ($catalogue as $index => $product) {
-            Product::query()->create($product + [
-                'fournisseur_id' => $suppliers[$index % $suppliers->count()]->id,
+            $supplier = $index < 6
+                ? $demoSupplier
+                : $suppliers[$index % $suppliers->count()];
+
+            Product::query()->updateOrCreate(['name' => $product['name']], $product + [
+                'fournisseur_id' => $supplier->id,
                 'is_active' => true,
             ]);
         }

@@ -11,7 +11,8 @@ class EnsureAdminCommand extends Command
     protected $signature = 'b2b:admin
                             {email? : Email of the admin account}
                             {--password=password : Password for new admin accounts}
-                            {--name=Admin : Display name when creating a new admin}';
+                            {--name=Admin : Display name when creating a new admin}
+                            {--reset-password : Reset password when the admin account already exists}';
 
     protected $description = 'Create or promote an administrator account';
 
@@ -24,11 +25,17 @@ class EnsureAdminCommand extends Command
         $user = User::query()->where('email', $email)->first();
 
         if ($user) {
-            $user->update([
+            $updates = [
                 'role' => User::ROLE_ADMIN,
                 'account_status' => User::STATUS_ACTIVE,
                 'onboarding_completed' => true,
-            ]);
+            ];
+
+            if ($this->option('reset-password')) {
+                $updates['password'] = Hash::make((string) $this->option('password'));
+            }
+
+            $user->update($updates);
 
             if (! $user->email_verified_at) {
                 $user->forceFill(['email_verified_at' => now()])->save();
