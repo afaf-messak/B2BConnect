@@ -27,12 +27,26 @@
             </div>
 
             <div class="relative" data-aos="fade-left">
+                @php
+                    $productImages = [
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Metal_tubes_stored_in_a_yard.jpg/330px-Metal_tubes_stored_in_a_yard.jpg',
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Diverse_Kanisterformen.png/250px-Diverse_Kanisterformen.png',
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Sharp_GP2Y0A21YK_IR_proximity_sensor_cropped.jpg/250px-Sharp_GP2Y0A21YK_IR_proximity_sensor_cropped.jpg',
+                        asset('images/landing/products/pallet-film.jpg'),
+                    ];
+                @endphp
+
                 <div class="grid grid-cols-2 gap-4">
                     @foreach (__('landing.marketplace.products') as $i => $product)
                         <div class="product-shine premium-card glass-card rounded-2xl p-5 {{ $i % 2 === 1 ? 'mt-10' : '' }}" data-aos="zoom-in" data-aos-delay="{{ $i * 90 }}">
-                            <div class="relative mb-4 flex h-28 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-zinc-100 via-zinc-50 to-brand-50 dark:from-zinc-800 dark:via-zinc-800 dark:to-brand-900/30">
+                            <div class="relative mb-4 h-28 overflow-hidden rounded-xl bg-gradient-to-br from-zinc-100 via-zinc-50 to-brand-50 dark:from-zinc-800 dark:via-zinc-800 dark:to-brand-900/30">
                                 <div class="absolute inset-0 bg-gradient-to-t from-brand-500/5 to-transparent"></div>
-                                <span class="material-symbols-outlined text-5xl text-zinc-300 dark:text-zinc-600">inventory_2</span>
+                                <img
+                                    src="{{ $productImages[$i] ?? $productImages[0] }}"
+                                    alt="{{ $product['name'] }}"
+                                    class="h-full w-full object-cover"
+                                    loading="lazy"
+                                >
                                 <span class="absolute left-2 top-2 rounded-full bg-brand-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">
                                     {{ $product['badge'] }}
                                 </span>
