@@ -1,7 +1,7 @@
 <style>
     :root {
         --sidebar-width: 280px;
-        --sidebar-collapsed-width: 80px;
+        --sidebar-collapsed-width: 96px;
         --navbar-height: 64px;
         --transition-base: 280ms cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -10,6 +10,7 @@
 
     .saas-sidebar {
         width: var(--sidebar-width);
+        overflow-x: hidden;
         transition: width var(--transition-base), transform var(--transition-base);
     }
 
@@ -29,7 +30,24 @@
         .saas-main { margin-inline-start: 0; }
     }
 
-    .saas-nav-label, .saas-brand-text, .saas-sidebar-footer-text {
+    .saas-sidebar-brand {
+        min-height: 3rem;
+        justify-content: flex-start;
+    }
+
+    .saas-sidebar-logo {
+        flex-shrink: 0;
+        transition: width var(--transition-base);
+        width: 230px;
+        max-width: 230px;
+        overflow: hidden;
+    }
+
+    .saas-sidebar-logo .b2b-logo-img {
+        height: 3rem;
+    }
+
+    .saas-nav-label, .saas-sidebar-footer-text {
         transition: opacity var(--transition-base), max-width var(--transition-base);
         max-width: 180px;
         white-space: nowrap;
@@ -37,12 +55,28 @@
     }
 
     html.sidebar-collapsed .saas-nav-label,
-    html.sidebar-collapsed .saas-brand-text,
     html.sidebar-collapsed .saas-sidebar-footer-text {
         opacity: 0; max-width: 0; margin: 0; pointer-events: none;
     }
 
-    html.sidebar-collapsed .saas-nav-item { justify-content: center; padding-inline: 0.75rem; }
+    html.sidebar-collapsed .saas-sidebar-brand {
+        justify-content: center;
+        min-height: 3.75rem;
+        padding-inline: 0;
+    }
+    html.sidebar-collapsed .saas-sidebar-logo {
+        width: 3.625rem;
+        height: 3.625rem;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+    }
+    html.sidebar-collapsed .saas-sidebar-logo .b2b-logo-img { height: 3.125rem; }
+    html.sidebar-collapsed .saas-nav-item {
+        min-height: 3.25rem;
+        justify-content: center;
+        padding-inline: 0.875rem;
+    }
     html.sidebar-collapsed .saas-nav-badge { position: absolute; top: 0.35rem; inset-inline-end: 0.35rem; }
 
     .glass-card {

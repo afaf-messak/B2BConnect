@@ -87,18 +87,23 @@
                     @endforeach
                 </div>
 
-                <form method="POST" action="{{ route('messages.store', $activePartner) }}" enctype="multipart/form-data" class="border-t border-outline-variant/20 p-4">
+                <form method="POST" action="{{ route('messages.store', $activePartner) }}" enctype="multipart/form-data" class="border-t border-outline-variant/20 bg-surface-container-highest p-4">
                     @csrf
                     @if ($productContext ?? null)
                         <input type="hidden" name="product_id" value="{{ $productContext->id }}">
                     @endif
                     @error('body')<p class="mb-2 text-sm text-error">{{ $message }}</p>@enderror
-                    <div class="flex flex-col gap-3 sm:flex-row">
-                        <input type="file" name="attachment" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.zip" class="saas-input text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-secondary-container file:px-3 file:py-1.5 file:text-sm file:font-semibold">
-                        <textarea name="body" rows="2" placeholder="{{ __('messages.placeholder') }}" class="saas-input flex-1 resize-none rounded-2xl">{{ old('body') }}</textarea>
-                        <button type="submit" class="saas-btn-primary saas-btn-icon">
-                            <span class="material-symbols-outlined">send</span>
-                        </button>
+                    <div class="flex flex-col gap-3">
+                        <div class="relative w-full">
+                            <textarea name="body" rows="2" placeholder="{{ __('messages.placeholder') }}" class="min-h-[5rem] w-full rounded-[32px] border border-outline-variant/20 bg-white px-16 py-3 pr-20 text-sm text-on-surface shadow-sm outline-none ring-1 ring-transparent transition focus:border-primary/40 focus:ring-primary/20 focus:ring-opacity-50 resize-none">{{ old('body') }}</textarea>
+                            <label class="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-2xl border border-outline-variant/20 bg-white text-on-surface shadow-sm transition hover:border-primary/40">
+                                <span class="text-xl font-semibold text-primary">+</span>
+                                <input type="file" name="attachment" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.zip" class="hidden">
+                            </label>
+                            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-lg transition hover:bg-primary/90">
+                                <span class="text-xl">↑</span>
+                            </button>
+                        </div>
                     </div>
                 </form>
             @else

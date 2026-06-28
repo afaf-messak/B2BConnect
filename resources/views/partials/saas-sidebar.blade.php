@@ -6,8 +6,8 @@
 
 @if ($showSidebar && !empty($navItems))
     <aside id="saas-sidebar" class="saas-sidebar fixed inset-y-0 start-0 z-50 flex flex-col border-e border-outline-variant/40 bg-surface px-3 py-6 lg:px-4">
-        <div class="flex items-center gap-3 px-2">
-            <x-b2b-logo size="sm" href="/" class="saas-brand-text min-w-0" />
+        <div class="saas-sidebar-brand flex items-center px-2">
+            <x-b2b-logo size="sm" :showTagline="true" href="/" class="saas-sidebar-logo min-w-0" />
         </div>
 
         <nav class="custom-scrollbar mt-8 flex-1 space-y-1 overflow-y-auto pe-1">
