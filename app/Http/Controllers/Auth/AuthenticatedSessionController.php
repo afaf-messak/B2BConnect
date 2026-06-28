@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect(RoleRedirect::urlFor($request->user()));
+        return redirect()->intended(RoleRedirect::urlFor($request->user()));
     }
 
     /**
